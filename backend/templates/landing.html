@@ -1,0 +1,21 @@
+<!-- backend/templates/landing.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+    <title>Landing Page</title>
+</head>
+<body>
+    <div class="background">
+        <video autoplay muted loop id="background-video">
+            <source src="{{ url_for('static', filename='videos/background.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="center">
+            <a href="{{ url_for('index') }}" class="btn">Get Started</a>
+        </div>
+    </div>
+</body>
+</html>

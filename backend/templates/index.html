@@ -1,0 +1,32 @@
+<!-- backend/templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <title>Weather Dashboard</title>
+</head>
+<body>
+    <div class="background">
+        <video autoplay muted loop id="background-video">
+            <source src="{{ url_for('static', filename='videos/index.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="weather-container">
+            <div class="weather-header">
+                <div>
+                    <h2>Ho Chi Minh</h2>
+                    <div class="weather-temperature">{{ weather['temperature'] }}°C</div>
+                </div>
+                <div>
+                    <div>Wind speed: {{ weather['windspeed'] }} km/h</div>
+                    <div>Day/Night: {{ 'Day' if weather['is_day'] == 1 else 'Night' }}</div>
+                    <div>Sun: {{ weather['sunrise'] }} / {{ weather['sunset'] }}</div>
+                    <div>Rain probability: {{ weather['precipitation_probability'] }}%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
