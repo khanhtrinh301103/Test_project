@@ -4,17 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind-landing.css') }}">
     <title>Landing Page</title>
 </head>
-<body>
+<body class="bg-gray-800 text-white">
     <div class="background">
-        <video autoplay muted loop id="background-video">
+        <video autoplay muted loop id="background-video" class="absolute w-auto min-w-full min-h-full max-w-none">
             <source src="{{ url_for('static', filename='videos/background.mp4') }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        <div class="center">
-            <a href="{{ url_for('index') }}" class="btn">Get Started</a>
+        <div class="center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+            <a href="{{ url_for('index') }}" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Get Started
+            </a>
         </div>
     </div>
 </body>
