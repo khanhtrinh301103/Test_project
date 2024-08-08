@@ -32,6 +32,7 @@ def landing():
 def index():
     weather_data = get_weather_data()
     current_weather = weather_data['current_weather']
+    print(current_weather)  # Kiểm tra dữ liệu API
     weather = {
         'temperature': current_weather.get('temperature', ''),
         'weathercode': current_weather.get('weathercode', ''),
@@ -43,6 +44,7 @@ def index():
     }
     daily_weather = weather_data['daily']
     return render_template('index.html', weather=weather, daily_weather=daily_weather)
+
 
 # Tạo Dash app
 app = dash.Dash(__name__, server=server, routes_pathname_prefix='/dash/')
