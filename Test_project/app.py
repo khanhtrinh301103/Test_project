@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from components.api import get_weather_data
 from components.chart import create_temperature_chart
+from components.weather_display import format_current_weather
 import dash
 import dash_html_components as html
 
@@ -13,24 +14,19 @@ def landing():
 @server.route('/index')
 def index():
     weather_data = get_weather_data()
-    current_weather = weather_data['current_weather']
-    weather = {
-        'temperature': current_weather.get('temperature', ''),
-        'weathercode': current_weather.get('weathercode', ''),
-        'windspeed': current_weather.get('windspeed', ''),
-        'is_day': current_weather.get('is_day', ''),
-        'sunrise': current_weather.get('sunrise', ''),
-        'sunset': current_weather.get('sunset', ''),
-        'precipitation_probability': current_weather.get('precipitation_probability', '')
-    }
-    daily_weather = weather_data['daily']
-    return render_template('index.html', weather=weather, daily_weather=daily_weather)
+    
+    # Kiểm tra dữ liệu daily có tồn tại và không rỗng
+    if not weather_data.get('daily'):
+        return "No daily data available", 500
+
+    current_weather = format_current_weather(weather_data['current_weather'], weather_data['daily'])
+    return render_template('index.html', weather=current_weather, daily_weather=weather_data['daily'])
 
 # Tạo Dash app
 app = dash.Dash(__name__, server=server, routes_pathname_prefix='/dash/')
 
 # Layout của Dash app
-weather_data = get_weather_data()['daily']  # Lấy dữ liệu trước để sử dụng trong biểu đồ
+weather_data = get_weather_data()['daily']  # Lấy dữ liệu daily từ API
 app.layout = html.Div([
     create_temperature_chart(app, weather_data)
 ])
