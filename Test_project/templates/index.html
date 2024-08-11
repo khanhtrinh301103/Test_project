@@ -10,7 +10,7 @@
 <body>
     <div class="background">
         <video autoplay muted loop id="background-video">
-            <source src="{{ url_for('static', filename='videos/background.mp4') }}" type="video/mp4">
+            <source src="{{ url_for('static', filename='videos/index.mp4') }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="weather-container">
@@ -26,10 +26,10 @@
                     <div>Rain probability: {{ weather['precipitation_probability'] }}%</div>
                 </div>
             </div>
-        </div>
+        </div>        
         <div class="weather-graph-container">
             <h3>5-Pastday temperature</h3>
-            <iframe src="/dash/" style="width:100%; height:300px; border:none;"></iframe>
+            <iframe src="/dash/" style="width:100%; height:500px; border:none;"></iframe>
         </div>
     </div>
 </body>

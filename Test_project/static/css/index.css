@@ -3,14 +3,12 @@ body, html {
     height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
-    overflow: hidden; /* Prevent scrollbars */
 }
 
 .background {
     position: relative;
     height: 100%;
     width: 100%;
-    overflow: hidden;
 }
 
 #background-video {
