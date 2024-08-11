@@ -3,6 +3,7 @@ import pandas as pd
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM, Bidirectional, Conv1D, MaxPooling1D, Flatten, Dropout
 from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.regularizers import l2
 
 def predict_precipitation_probability(data):
     # Kiểm tra dữ liệu daily có đầy đủ
@@ -47,13 +48,13 @@ def predict_precipitation_probability(data):
     model = Sequential()
     model.add(Conv1D(filters=64, kernel_size=2, activation='relu', input_shape=(look_back, len(features))))
     model.add(MaxPooling1D(pool_size=2))
-    model.add(Dropout(0.3))
-    model.add(Bidirectional(LSTM(64, return_sequences=True)))
-    model.add(Dropout(0.3))
-    model.add(Bidirectional(LSTM(64)))
-    model.add(Dropout(0.3))
-    model.add(Dense(50, activation='relu'))
-    model.add(Dropout(0.3))
+    model.add(Dropout(0.4))  # Tăng tỷ lệ Dropout
+    model.add(Bidirectional(LSTM(64, return_sequences=True, kernel_regularizer=l2(0.01))))  # Thêm Regularization
+    model.add(Dropout(0.4))  # Tăng tỷ lệ Dropout
+    model.add(Bidirectional(LSTM(64, kernel_regularizer=l2(0.01))))  # Thêm Regularization
+    model.add(Dropout(0.4))  # Tăng tỷ lệ Dropout
+    model.add(Dense(50, activation='relu', kernel_regularizer=l2(0.01)))  # Thêm Regularization
+    model.add(Dropout(0.4))  # Tăng tỷ lệ Dropout
     model.add(Dense(1))
 
     model.compile(optimizer='adam', loss='mse')
