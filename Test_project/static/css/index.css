@@ -70,7 +70,7 @@ body, html {
     border:none;
 }
 
-/* Default styling (Desktop) */
+/* Default styling (Desktop) 
 @media screen and (min-width: 1200px) {
     .weather-container {
         width: 1000px;
@@ -78,8 +78,15 @@ body, html {
     }
 
     .weather-graph-container {
-        width: 600px;
+        max-width: 1000px;
         top: 10%;
+
+    }
+
+    .weather-graph-container-2 {
+        width:100%; 
+        height:1300px; 
+        border:none;
     }
 
     .weather-temperature {
@@ -88,9 +95,10 @@ body, html {
 }
 
 
-@media screen and (min-width: 864px) and (max-width: 1536px) {
+@media screen and (min-width: 864px) and (max-width: 1200px) {
     .weather-container {
         width: 900px;
+
     }
 
     .weather-graph-container {
@@ -102,7 +110,7 @@ body, html {
     }
 }
 
-/* Laptop screens (between 992px and 1200px) */
+/* Laptop screens (between 992px and 1200px) 
 @media screen and (min-width: 992px) and (max-width: 1199px) {
     .weather-container {
         width: 800px;
@@ -117,7 +125,20 @@ body, html {
     }
 }
 
-/* Tablet screens (between 768px and 991px) */
+@media screen and (min-width: 991px)  {
+    .weather-container {
+        width: 800px;
+    }
+
+    .weather-graph-container {
+        width: 800px;
+    }
+
+    .weather-temperature {
+        font-size: 45px;
+    }
+}
+/* Tablet screens (between 768px and 991px) 
 @media screen and (min-width: 768px) and (max-width: 991px) {
     .weather-container {
         width: 700px;
@@ -130,10 +151,10 @@ body, html {
     .weather-temperature {
         font-size: 40px;
     }
-}
+}*/
 
 /* Mobile screens (less than 768px) */
-@media screen and (max-width: 767px) {
+@media screen and (min-width: 767px) {
     .weather-container {
         width: 90%;
         padding: 15px;
