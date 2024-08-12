@@ -3,12 +3,19 @@ body, html {
     height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
+    overflow-x: hidden; /* Ngăn cuộn ngang */
 }
 
 .background {
-    position: relative;
-    height: 100%;
+    /* position: fixed; */
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
     width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
 }
 
 #background-video {
@@ -21,6 +28,7 @@ body, html {
     height: auto;
     z-index: -1;
     transform: translate(-50%, -50%);
+    object-fit: cover; /* Đảm bảo video bao phủ toàn bộ khung hình */
 }
 
 .weather-container {
@@ -29,11 +37,10 @@ body, html {
     padding: 20px;
     border-radius: 10px;
     width: 1000px;
-    margin: 20px;
+    margin: 20px auto;
     text-align: left;
-    position: absolute;
-    top: 20%;
-    left: 20%;
+    position: relative; /* Đảm bảo có thể cuộn được */
+    z-index: 1; /* Đảm bảo nội dung nằm trên nền video */
 }
 
 .weather-header {
@@ -52,9 +59,92 @@ body, html {
     border-radius: 10px;
     padding: 10px;
     width: 600px;
-    margin: 50px;
-    position: absolute;
-    top: 70%;
-    left: 70%;
-    transform: translate(-50%, -50%);
+    margin: 50px; /* Canh giữa khối này */
+    z-index: 1; /* Đảm bảo nội dung nằm trên nền video */
+}
+
+.weather-graph-container-2{
+    width:100%; 
+    height:1000px; 
+    padding-bottom: 60px;
+    border:none;
+}
+
+/* Default styling (Desktop) */
+@media screen and (min-width: 1200px) {
+    .weather-container {
+        width: 1000px;
+        top: 20%;
+    }
+
+    .weather-graph-container {
+        width: 600px;
+        top: 10%;
+    }
+
+    .weather-temperature {
+        font-size: 50px;
+    }
+}
+
+
+@media screen and (min-width: 864px) and (max-width: 1536px) {
+    .weather-container {
+        width: 900px;
+    }
+
+    .weather-graph-container {
+        width: 800px;
+    }
+
+    .weather-temperature {
+        font-size: 45px;
+    }
+}
+
+/* Laptop screens (between 992px and 1200px) */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .weather-container {
+        width: 800px;
+    }
+
+    .weather-graph-container {
+        width: 800px;
+    }
+
+    .weather-temperature {
+        font-size: 45px;
+    }
+}
+
+/* Tablet screens (between 768px and 991px) */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .weather-container {
+        width: 700px;
+    }
+
+    .weather-graph-container {
+        width: 400px;
+    }
+
+    .weather-temperature {
+        font-size: 40px;
+    }
+}
+
+/* Mobile screens (less than 768px) */
+@media screen and (max-width: 767px) {
+    .weather-container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .weather-graph-container {
+        width: 90%;
+        margin-top: 10px;
+    }
+
+    .weather-temperature {
+        font-size: 35px;
+    }
 }
