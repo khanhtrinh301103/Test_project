@@ -13,24 +13,40 @@
             <source src="{{ url_for('static', filename='videos/index.mp4') }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
+        
+        <!-- Temperature Container -->
         <div class="weather-container">
             <div class="weather-header">
                 <div>
-                    <h2>Ho Chi Minh</h2>
+                    <h2>Ho Chi Minh <span style="font-size: 40px;">&#x1F4CD;</span></h2>
                     <div class="weather-temperature">{{ weather['temperature'] }}°C</div>
                 </div>
-                <div>
+                <div class="weather-details">
                     <div>Wind speed: {{ weather['windspeed'] }} km/h</div>
                     <div>Day/Night: {{ 'Day' if weather['is_day'] == 1 else 'Night' }}</div>
-                    <div>Sunrise: {{ weather['sunrise'] }}</div>
-                    <div>Sunset: {{ weather['sunset'] }}</div>
                     <div>Rain probability: {{ weather['precipitation_probability'] }}%</div>
-                    <div>Date: {{ weather['today_date'] }}</div>
                 </div>
             </div>
-        </div>        
-        <div class="weather-graph-container">
-            <iframe class= "weather-graph-container-2" src="/dash/"></iframe>
+        </div>
+
+        <!-- Additional Weather Info Container -->
+        <div class="additional-info-container">
+            <div class="info-box">
+                <div>Cloud Cover</div>
+                <div>{{ weather['cloud_cover'] }}%</div>
+            </div>
+            <div class="info-box">
+                <div>Shower</div>
+                <div>{{ weather['showers'] }} mm/h</div>
+            </div>
+            <div class="info-box">
+                <div>Precipitation</div>
+                <div>{{ weather['precipitation'] }} mm/h</div>
+            </div>
+            <div class="info-box">
+                <div>Humidity</div>
+                <div>{{ weather['humidity'] }}%</div>
+            </div>
         </div>
     </div>
 </body>

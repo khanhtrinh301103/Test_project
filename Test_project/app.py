@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 from components.api import get_weather_data
-from components.chart import create_temperature_chart
 from components.weather_display import format_current_weather
 import dash
 import dash_html_components as html
@@ -15,21 +14,17 @@ def landing():
 def index():
     weather_data = get_weather_data()
     
-    # Kiểm tra dữ liệu daily có tồn tại và không rỗng
+    # Check if daily data exists and is not empty
     if not weather_data.get('daily'):
         return "No daily data available", 500
 
-    current_weather = format_current_weather(weather_data['current_weather'], weather_data['daily'])
-    return render_template('index.html', weather=current_weather, daily_weather=weather_data['daily'])
+    current_weather = weather_data['current_weather']
+    hourly_data = weather_data.get('hourly', {})  # Lấy dữ liệu hourly nếu có
 
-# Tạo Dash app
-app = dash.Dash(__name__, server=server, routes_pathname_prefix='/dash/')
-
-# Layout của Dash app
-weather_data = get_weather_data()['daily']  # Lấy dữ liệu daily từ API
-app.layout = html.Div([
-    create_temperature_chart(app, weather_data)
-])
+    # Truyền thêm hourly_data vào hàm format_current_weather
+    formatted_weather = format_current_weather(current_weather, weather_data['daily'], hourly_data)
+    
+    return render_template('index.html', weather=formatted_weather)
 
 if __name__ == '__main__':
     server.run(debug=True)
