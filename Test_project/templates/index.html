@@ -22,8 +22,10 @@
                 <div>
                     <div>Wind speed: {{ weather['windspeed'] }} km/h</div>
                     <div>Day/Night: {{ 'Day' if weather['is_day'] == 1 else 'Night' }}</div>
-                    <div>Sun: {{ weather['sunrise'] }} / {{ weather['sunset'] }}</div>
+                    <div>Sunrise: {{ weather['sunrise'] }}</div>
+                    <div>Sunset: {{ weather['sunset'] }}</div>
                     <div>Rain probability: {{ weather['precipitation_probability'] }}%</div>
+                    <div>Date: {{ weather['today_date'] }}</div>
                 </div>
             </div>
         </div>        

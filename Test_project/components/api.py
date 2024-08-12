@@ -6,7 +6,7 @@ def get_weather_data():
         "latitude": 10.8231,
         "longitude": 106.6297,
         "current_weather": "true",
-        "daily": ["temperature_2m_max", "temperature_2m_min", "sunshine_duration", "precipitation_sum", "precipitation_probability_max", "wind_speed_10m_max", "wind_gusts_10m_max", "wind_direction_10m_dominant"],
+        "daily": ["temperature_2m_max", "temperature_2m_min", "sunshine_duration", "precipitation_sum", "precipitation_probability_max", "wind_speed_10m_max", "wind_gusts_10m_max", "wind_direction_10m_dominant", "sunrise", "sunset"],
         "timezone": "Asia/Bangkok",
         "past_days": 60  # Dữ liệu 60 ngày qua để huấn luyện mô hình
     }
