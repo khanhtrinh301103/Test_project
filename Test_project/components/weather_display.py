@@ -1,5 +1,5 @@
 from datetime import datetime
-from components.probability_prediction import predict_precipitation_probability
+from components.RainProbability import predict_precipitation_probability
 
 def format_current_weather(current_weather, daily_data, hourly_data):
     precipitation_probability = predict_precipitation_probability(daily_data)
