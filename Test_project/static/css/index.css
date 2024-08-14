@@ -6,7 +6,8 @@ body, html {
     overflow-x: hidden; /* Ngăn cuộn ngang */
 }
 
-.background {
+#background-video {
+    position: fixed; /* Đặt video nền cố định */
     top: 0;
     left: 0;
     min-width: 100%;
@@ -14,32 +15,25 @@ body, html {
     width: 100%;
     height: 100%;
     z-index: -1;
-    overflow: hidden;
-}
-
-#background-video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: -1;
-    transform: translate(-50%, -50%);
     object-fit: cover; /* Đảm bảo video bao phủ toàn bộ khung hình */
 }
 
+.main-content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+}
+
+/* Weather Container */
 .weather-container {
-    background: rgba(0, 0, 0, 0.5); /* Transparent background */
+    background: rgba(0, 0, 0, 0.5); /* Nền trong suốt */
     color: white;
-    padding: 50px; /* Increase padding for more space inside the container */
-    border-radius: 15px; /* Increase border-radius for smoother corners */
-    width: 1100px; /* Increase width of the container */
-    margin: 30px auto; /* Increase margin for more space around the container */
+    padding: 50px;
+    border-radius: 15px;
+    width: 1100px;
+    margin: 30px auto;
     text-align: left;
-    position: relative; /* Đảm bảo có thể cuộn được */
-    z-index: 1; /* Đảm bảo nội dung nằm trên nền video */
+    z-index: 1;
 }
 
 .weather-header h2 {
@@ -53,38 +47,56 @@ body, html {
 }
 
 .weather-temperature {
-    font-size: 200px; /* Increase font size for temperature */
+    font-size: 200px; /* Kích thước phông chữ lớn cho nhiệt độ */
     font-weight: bold;
-    color: #FFA500; /* Orange color for temperature */
+    color: #FFA500; /* Màu cam cho nhiệt độ */
 }
 
 .weather-details {
-    font-size: 30px; /* Increase font size for details */
-    line-height: 1.8; /* Slightly increase line height for better readability */
+    font-size: 30px; /* Kích thước phông chữ cho chi tiết */
+    line-height: 1.8;
 }
 
 /* Additional Weather Info Container */
 .additional-info-container {
-    background: rgba(112, 112, 112, 0.5); /* Same transparent background as weather-container */
+    background: rgba(112, 112, 112, 0.5); /* Nền trong suốt cho container thông tin thêm */
     color: white;
-    border-radius: 15px; /* Same border-radius as weather-container */
-    width: 1100px; /* Same width as weather-container */
-    margin: 20px auto; /* Center the container with similar margins */
-    text-align: center; /* Center align text within each box */
+    border-radius: 15px;
+    width: 1100px;
+    margin: 20px auto;
+    text-align: center;
     display: flex;
     justify-content: space-between;
-    gap: 10px; /* Add gap between info-boxes */
+    gap: 10px; /* Khoảng cách giữa các hộp thông tin */
 }
 
 .info-box {
-    background: rgba(0, 0, 0, 0.5); /* Same transparent background as weather-container */
+    background: rgba(0, 0, 0, 0.5); /* Nền trong suốt cho hộp thông tin */
     border-radius: 20px;
-    width: 22%; /* Ensure the boxes take up equal width */
-    padding: 20px; /* Add padding to the boxes */
+    width: 22%; /* Đảm bảo các hộp có chiều rộng bằng nhau */
+    padding: 20px;
 }
 
 .info-box div {
-    font-size: 30px; /* Font size for the info labels, matching weather-details */
+    font-size: 30px;
+}
+
+/* Predicted Precipitation Chart */
+.predicted-precipitation-chart {
+    overflow: hidden; /* Loại bỏ thanh cuộn không cần thiết */
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.predicted-precipitation-chart h2 {
+    text-align: center; /* Căn giữa tiêu đề */
+    color: white;
+    margin-bottom: 20px;
+}
+
+iframe {
+    background-color: transparent; /* Làm nền của iframe trong suốt */
+    overflow: hidden;
 }
 
 /* Mobile screens (less than 768px) */
