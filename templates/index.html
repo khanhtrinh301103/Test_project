@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <!-- Liên kết đến CSS của Dash -->
+    <link rel="stylesheet" href="/dash/_dash-component-suites/dash/dcc/dash_dcc.css">
+    <link rel="stylesheet" href="/dash/_dash-component-suites/dash/dash-renderer/dash_renderer.css">
+    <link rel="stylesheet" href="/dash/_dash-component-suites/dash/dash-html-components/dash_html_components.css">
+    <link rel="stylesheet" href="/dash/_dash-component-suites/dash/dash-core-components/dash_core_components.css">
+</head>
+<body>
+    <h1>Welcome to the Weather Dashboard</h1>
+
+    <!-- Form để nhập dữ liệu -->
+    <form id="data-form" action="/update" method="post">
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="latitude" name="latitude" required>
+        <br>
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="longitude" name="longitude" required>
+        <br>
+        <button type="submit">Update Chart</button>
+    </form>
+
+    <!-- Dash App sẽ được phục vụ tại /dash/ -->
+    <iframe src="/dash1/" width="100%" height="800" frameborder="0"></iframe>
+
+</body>
+</html>
