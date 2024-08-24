@@ -61,6 +61,7 @@ def train_models(daily_df, features):
     # Prepare the target variable
     target = 'precipitation_sum'
     y = daily_df[target].values  # Assign target variable
+    print(f"Shape of target variable y: {y.shape}")
 
     # Prepare data for LSTM (trend features)
     trend_features = ['precipitation_sum_7d_mean', 'precipitation_sum_14d_mean', 
@@ -68,6 +69,7 @@ def train_models(daily_df, features):
                       'precipitation_sum_cumsum']
     X_trend = daily_df[trend_features].values
     X_trend = X_trend.reshape((X_trend.shape[0], 1, X_trend.shape[1]))
+    print(f"Shape of trend features X_trend: {X_trend.shape}")
 
     # Train LSTM model
     lstm_model = create_lstm_model((X_trend.shape[1], X_trend.shape[2]))
@@ -75,10 +77,15 @@ def train_models(daily_df, features):
 
     # Generate trend features for Gradient Boosting
     trend_features_lstm = lstm_model.predict(X_trend)
+    print(f"Shape of trend features from LSTM: {trend_features_lstm.shape}")
+
     X_combined = np.hstack((daily_df[features].values, trend_features_lstm))
+    print(f"Shape of combined features X_combined: {X_combined.shape}")
 
     # Train Gradient Boosting model
     X_train_full, X_test, y_train_full, y_test = train_test_split(X_combined, y, test_size=0.2, shuffle=False)
+    print(f"Shape of X_train_full: {X_train_full.shape}, Shape of y_train_full: {y_train_full.shape}")
+    
     gb_model = GradientBoostingRegressor(
         n_estimators=200,
         learning_rate=0.05,
@@ -92,15 +99,25 @@ def train_models(daily_df, features):
     
     return gb_model, lstm_model
 
+
 def predict_precipitation(daily_df, gb_model, lstm_model, features):
     future_dates = pd.date_range(datetime.datetime.now() + pd.Timedelta(days=1), periods=14)
+    print(f"Future dates: {future_dates}")
+
     trend_features = ['precipitation_sum_7d_mean', 'precipitation_sum_14d_mean', 
                       'precipitation_sum_7d_std', 'precipitation_sum_14d_std', 
                       'precipitation_sum_cumsum']
+
     future_trend_features_lstm = lstm_model.predict(daily_df[trend_features].tail(14).values.reshape((14, 1, len(trend_features))))
+    print(f"Shape of future trend features from LSTM: {future_trend_features_lstm.shape}")
+
     future_features_combined = np.hstack((daily_df[features].tail(14).values, future_trend_features_lstm))
+    print(f"Shape of future combined features: {future_features_combined.shape}")
+
     predictions = gb_model.predict(future_features_combined)
     predictions = np.maximum(predictions, 0)
 
     pred_df = pd.DataFrame({'date': future_dates, 'predicted_precipitation_sum': predictions.flatten()})
+    print(f"Prediction DataFrame: {pred_df}")
+    
     return pred_df

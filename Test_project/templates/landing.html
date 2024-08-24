@@ -13,11 +13,17 @@
             <source src="{{ url_for('static', filename='videos/background.mp4') }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        <div class="center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-            <a href="{{ url_for('index') }}" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Get Started
-            </a>
-        </div>
+        <form method="POST">
+            <select name="location" class="btn bg-gray-700 text-white py-2 px-4 rounded">
+                <option value="Ho Chi Minh">Ho Chi Minh</option>
+                <option value="Hanoi">Hanoi</option>
+                <option value="Da Nang">Da Nang</option>
+                <option value="Can Tho">Can Tho</option>
+                <option value="Nha Trang">Nha Trang</option>
+            </select>
+            <button type="submit" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Get Started</button>
+        </form>   
     </div>
+ 
 </body>
 </html>
