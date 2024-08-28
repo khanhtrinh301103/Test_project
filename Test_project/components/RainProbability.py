@@ -5,8 +5,7 @@ from tensorflow.keras.layers import Dense, LSTM, Bidirectional, Conv1D, MaxPooli
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.regularizers import l2
 
-def predict_precipitation_probability(data):
-    # Kiểm tra dữ liệu daily có đầy đủ
+def predict_precipitation_probability(data, predict_next_14_days=False):
     if not data.get('time') or not data.get('temperature_2m_max'):
         raise ValueError("Missing necessary fields in daily data")
 
@@ -25,7 +24,6 @@ def predict_precipitation_probability(data):
     df.set_index('date', inplace=True)
     df.fillna(0, inplace=True)
 
-    # Chọn đặc trưng và mục tiêu
     features = df.columns.difference(['precipitation_sum'])
     target = 'precipitation_sum'
 
@@ -34,7 +32,6 @@ def predict_precipitation_probability(data):
     target_scaler = MinMaxScaler()
     scaled_target = target_scaler.fit_transform(df[[target]])
 
-    # Chuẩn bị dữ liệu huấn luyện
     look_back = 14
     X, y = [], []
     for i in range(look_back, len(scaled_features)):
@@ -44,30 +41,35 @@ def predict_precipitation_probability(data):
     X, y = np.array(X), np.array(y)
     X = X.reshape((X.shape[0], X.shape[1], len(features)))
 
-    # Xây dựng mô hình học máy
     model = Sequential()
     model.add(Conv1D(filters=64, kernel_size=2, activation='relu', input_shape=(look_back, len(features))))
     model.add(MaxPooling1D(pool_size=2))
-    model.add(Dropout(0.4))  # Tăng tỷ lệ Dropout
-    model.add(Bidirectional(LSTM(64, return_sequences=True, kernel_regularizer=l2(0.01))))  # Thêm Regularization
-    model.add(Dropout(0.4))  # Tăng tỷ lệ Dropout
-    model.add(Bidirectional(LSTM(64, kernel_regularizer=l2(0.01))))  # Thêm Regularization
-    model.add(Dropout(0.4))  # Tăng tỷ lệ Dropout
-    model.add(Dense(50, activation='relu', kernel_regularizer=l2(0.01)))  # Thêm Regularization
-    model.add(Dropout(0.4))  # Tăng tỷ lệ Dropout
+    model.add(Dropout(0.4))
+    model.add(Bidirectional(LSTM(64, return_sequences=True, kernel_regularizer=l2(0.01))))
+    model.add(Dropout(0.4))
+    model.add(Bidirectional(LSTM(64, kernel_regularizer=l2(0.01))))
+    model.add(Dropout(0.4))
+    model.add(Dense(50, activation='relu', kernel_regularizer=l2(0.01)))
+    model.add(Dropout(0.4))
     model.add(Dense(1))
 
     model.compile(optimizer='adam', loss='mse')
 
-    # Huấn luyện mô hình
     model.fit(X, y, epochs=200, batch_size=16, validation_split=0.2, verbose=0, shuffle=False)
 
-    # Dự đoán xác suất mưa cho ngày hôm nay
+    # Dự đoán xác suất mưa cho 14 ngày tới
+    predictions = []
     last_14_days = scaled_features[-look_back:]
-    X_pred = last_14_days.reshape((1, look_back, len(features)))
-    y_pred = model.predict(X_pred)
-    predicted_precipitation = target_scaler.inverse_transform(y_pred)
 
-    # Tính toán xác suất mưa
-    precipitation_probability = np.minimum(predicted_precipitation[0][0] * 10, 100)
-    return precipitation_probability
+    for _ in range(14):
+        X_pred = last_14_days.reshape((1, look_back, len(features)))
+        y_pred = model.predict(X_pred)
+        predicted_precipitation = target_scaler.inverse_transform(y_pred)
+        precipitation_probability = np.minimum(predicted_precipitation[0][0] * 10, 100)
+        predictions.append(precipitation_probability)
+
+        # Cập nhật last_14_days với giá trị dự đoán mới
+        new_row = np.hstack((X_pred[0, -1, :-1], y_pred[0]))  # Chèn giá trị mới vào cuối
+        last_14_days = np.vstack((last_14_days[1:], new_row))  # Xóa hàng đầu tiên và thêm hàng mới
+
+    return predictions

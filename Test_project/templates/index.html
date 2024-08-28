@@ -52,14 +52,23 @@
         </div>
 
         <!-- Predicted Precipitation Chart -->
-        <div class="predicted-precipitation-chart">
+        <div class = "predicted-precipitation-chart-container">
             <h2 style="text-align: center; color: white;">Predicted Precipitation for the Next 14 Days</h2>
-            {% if pred_data %}
-            <iframe src="/dash/?data={{ pred_data | tojson | safe }}" width="100%" height="500px" style="border:none; background-color: transparent;"></iframe>
-            {% else %}
-            <iframe src="/dash/" width="100%" height="500px" style="border:none; background-color: transparent;"></iframe>
-            {% endif %}
+            <div class="predicted-precipitation-chart">
+                {% if pred_data %}
+                <iframe src="/dash/?data={{ pred_data | tojson | safe }}" width="100%" height="500px" style="border:none; background-color: transparent;"></iframe>
+                {% else %}
+                <iframe src="/dash/" width="100%" height="500px" style="border:none; background-color: transparent;"></iframe>
+                {% endif %}
+            </div>
         </div>
+
+        <div class= "rain-probability-chart-container">
+            <div class="rain-probability-chart">
+                <iframe src="/dash_rain_probability/" width="100%" height="600px" style="border:none; background-color: transparent;"></iframe>
+            </div>   
+        </div>        
+        
     </div>
 </body>
 </html>

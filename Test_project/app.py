@@ -4,6 +4,8 @@ from components.api import get_weather_data
 from components.weather_display import format_current_weather
 from components.PredictedPrecipitation import process_data, train_models, predict_precipitation
 from components.PredictedPrecipitationChart import create_dash_app
+from components.RainProbability import predict_precipitation_probability  # Đảm bảo import hàm này
+from components.RainProbabilityChart import create_rain_probability_chart
 from components.locations import get_location_coordinates
 import json
 
@@ -12,6 +14,7 @@ server.secret_key = 'supersecretkey'  # Cần thiết để sử dụng session
 
 # Khởi tạo Dash app một lần duy nhất với server
 dash_app = create_dash_app(server)
+rain_probability_chart = create_rain_probability_chart(server)  # Thêm Dash app cho biểu đồ Rain Probability
 
 @server.route('/', methods=['GET', 'POST'])
 def landing():
@@ -44,6 +47,10 @@ def index():
     daily_df, features = process_data(weather_data['daily'], hourly_data)
     gb_model, lstm_model = train_models(daily_df, features)
     pred_df = predict_precipitation(daily_df, gb_model, lstm_model, features)
+
+    # Dự đoán xác suất mưa cho 14 ngày tới từ hôm nay
+    precipitation_probabilities = predict_precipitation_probability(weather_data['daily'], predict_next_14_days=True)
+    session['precipitation_probabilities_14d'] = precipitation_probabilities  # Lưu trữ dữ liệu dự đoán 14 ngày vào session
 
     # Lưu trữ dự đoán vào session Flask
     session['pred_data'] = pred_df.to_json()
