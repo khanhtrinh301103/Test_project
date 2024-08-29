@@ -10,7 +10,7 @@ def create_rain_probability_chart(server):
 
     app.layout = html.Div([
         dcc.Graph(id='rain-probability-graph')
-    ], style={'display': 'inline-block', 'float': 'left'})
+    ], style={})
     
     @app.callback(
         Output('rain-probability-graph', 'figure'),
