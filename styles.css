@@ -1,0 +1,42 @@
+body{
+    width:300px;
+    border-radius: 12px;
+    background-image: url("images.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    color: white;
+    align-items: center;
+    flex-direction: column;
+    height:500px;
+}
+label{
+    padding:10px;
+    font-size: 15px;
+}
+select{
+    border-radius: 12px;
+    padding:10px;
+    font-size: 15px;
+
+}
+option{
+    border-radius: 12px;
+    padding:10px;
+    font-size: 15px;
+}
+
+.weatherBox{
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.weatherContent{
+    margin-top: 10px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    padding:10px;
+    font-size: 15px;
+}
