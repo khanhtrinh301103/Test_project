@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "drizzeldex",
+    "version": "1.0",
+    "description": "Show current weather information.",
+    "action": {
+      "default_popup": "popup.html"
+    }
+  }
+  
