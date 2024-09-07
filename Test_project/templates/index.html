@@ -16,11 +16,25 @@
     
     <!-- Main Content -->
     <div class="main-content">
+        <!-- Location Selection Form -->
+        <form method="POST">
+            <select name="location" class="btn bg-gray-700 text-white py-2 px-4 rounded">
+                <option value="Ho Chi Minh">Ho Chi Minh</option>
+                <option value="Hanoi">Hanoi</option>
+                <option value="Da Nang">Da Nang</option>
+                <option value="Can Tho">Can Tho</option>
+                <option value="Nha Trang">Nha Trang</option>
+            </select>
+            <button type="submit" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Get Started</button>
+        </form>
+
+        <!-- Weather Information -->
+        {% if weather %}
         <!-- Temperature Container -->
         <div class="weather-container">
             <div class="weather-header">
                 <div>
-                    <h2>{{ weather['location'] }} <span style="font-size: 40px;">&#x1F4CD;</span></h2> <!-- Hiển thị vị trí đã chọn -->
+                    <h2>{{ weather['location'] }} <span style="font-size: 40px;">&#x1F4CD;</span></h2>
                     <div class="weather-temperature">{{ weather['temperature'] }}°C</div>
                 </div>
                 <div class="weather-details">
@@ -52,7 +66,7 @@
         </div>
 
         <!-- Predicted Precipitation Chart -->
-        <div class = "predicted-precipitation-chart-container">
+        <div class="predicted-precipitation-chart-container">
             <h2 style="text-align: center; color: white;">Predicted Precipitation for the Next 14 Days</h2>
             <div class="predicted-precipitation-chart">
                 {% if pred_data %}
@@ -63,16 +77,15 @@
             </div>
         </div>
 
-        <div class= "rain-probability-chart-container">
+        <div class="rain-probability-chart-container">
             <div class="rain-probability-chart">
                 <iframe src="/dash_rain_probability/" width="100%" height="600px" style="border:none; background-color: transparent;"></iframe>
-            </div> 
-            <!-- thay doi src cua iframe sau   -->
+            </div>
             <div class="rain-probability-chart">
                 <iframe src="/dash_rain_probability/" width="100%" height="600px" style="border:none; background-color: transparent;"></iframe>
-            </div>   
-        </div>        
-        
+            </div>
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>

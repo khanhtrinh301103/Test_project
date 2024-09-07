@@ -17,18 +17,15 @@ dash_app = create_dash_app(server)
 rain_probability_chart = create_rain_probability_chart(server)  # Thêm Dash app cho biểu đồ Rain Probability
 
 @server.route('/', methods=['GET', 'POST'])
-def landing():
+def index():
     if request.method == 'POST':
         selected_location = request.form.get('location')
         if selected_location:
             session['location'] = selected_location  # Lưu vị trí vào session
         return redirect(url_for('index'))
-    return render_template('landing.html')
 
-@server.route('/index')
-def index():
-    # Lấy vị trí từ session
-    current_location = session.get('location', 'Ho Chi Minh')  # Mặc định là Ho Chi Minh nếu không có vị trí
+    # Lấy vị trí từ session hoặc mặc định là Ho Chi Minh
+    current_location = session.get('location', 'Ho Chi Minh')  
     
     # Lấy tọa độ của vị trí hiện tại
     coords = get_location_coordinates(current_location)
@@ -50,7 +47,7 @@ def index():
 
     # Dự đoán xác suất mưa cho 14 ngày tới từ hôm nay
     precipitation_probabilities = predict_precipitation_probability(weather_data['daily'], predict_next_14_days=True)
-    session['precipitation_probabilities_14d'] = precipitation_probabilities  # Lưu trữ dữ liệu dự đoán 14 ngày vào session
+    session['precipitation_probabilities_14d'] = precipitation_probabilities
 
     # Lưu trữ dự đoán vào session Flask
     session['pred_data'] = pred_df.to_json()
@@ -60,6 +57,7 @@ def index():
     formatted_weather['location'] = current_location
 
     return render_template('index.html', weather=formatted_weather, pred_data=pred_json)
+
 
 if __name__ == '__main__':
     server.run(debug=True)
