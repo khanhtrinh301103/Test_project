@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Info</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="popup.js" defer></script>
+</head>
+<body>
+    <div class="extension">
+        <h1>Current Weather</h1>
+    
+    <label for="location-select">Choose a location:</label><br>
+    <select id="location-select">
+        <option value="Ho Chi Minh">Ho Chi Minh</option>
+        <option value="Ha noi">Hanoi</option>
+        <option value="Da Nang">Da Nang</option>
+        <option value="Can Tho">Can Tho</option>
+        <option value="Nha Trang">Nha Trang</option>
+    </select>
+    <div class="weatherBox">
+        <div class="weatherContent" id="temperature">Temperature: </div>
+        <div class="weatherContent" id="windspeed">Windspeed: </div>
+        <div class="weatherContent" id="weathercode">Weather Code: </div>
+        <div class="weatherContent" id="humidity">Relative Humidity: </div>
+        <div class="weatherContent" id="daynight">Day/Night: </div>
+    </div>
+    </div>
+</body>
+</html>
