@@ -26,6 +26,9 @@ def format_current_weather(current_weather, daily_data, hourly_data):
     precipitation = hourly_data.get('precipitation', [''])[0]
     cloud_cover = hourly_data.get('cloudcover', [''])[0]
 
+    # Lấy dữ liệu rain_sum từ daily_data
+    rain_sum_today = daily_data.get('rain_sum', [''])[0]
+
     return {
         'temperature': current_weather.get('temperature', ''),
         'weathercode': current_weather.get('weathercode', ''),
@@ -38,5 +41,6 @@ def format_current_weather(current_weather, daily_data, hourly_data):
         'humidity': humidity,
         'showers': shower,
         'precipitation': precipitation,
-        'cloud_cover': cloud_cover
+        'cloud_cover': cloud_cover,
+        'rain_sum': rain_sum_today  # Thêm rain_sum vào kết quả trả về
     }

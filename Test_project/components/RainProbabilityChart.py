@@ -35,13 +35,13 @@ def create_rain_probability_chart(server):
                     y=y_data,
                     mode='lines+markers',
                     name='Rain Probability for the Next 14 Days',
-                    line=dict(color='blue')
+                    line=dict(color='#5A65DC')
                 )
             ],
             'layout': go.Layout(
                 title='Rain Probability',
-                xaxis={'title': 'Date', 'color': 'black', 'tickfont': dict(color='black')},
-                yaxis={'title': 'Probability (%)', 'color': 'black', 'tickfont': dict(color='black')},
+                xaxis={'title': 'Date', 'color': 'white', 'tickfont': dict(color='white')},
+                yaxis={'title': 'Probability (%)', 'color': 'white', 'tickfont': dict(color='white')},
                 hovermode='closest',
                 plot_bgcolor='rgba(0, 0, 0, 0)',  # Nền trong suốt
                 paper_bgcolor='rgba(0, 0, 0, 0)',  # Nền trong suốt cho toàn bộ biểu đồ
