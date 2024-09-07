@@ -125,6 +125,50 @@ iframe {
     margin: 10px;
 }
 
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: center; /* Căn giữa nội dung của thanh điều hướng */
+    align-items: center;
+    padding: 20px; /* Thêm padding để tạo khoảng cách đều */
+    background-color: #1a1a1a;
+    color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.navbar-logo img {
+    height: 50px;
+}
+
+.navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 30px; /* Khoảng cách giữa các liên kết */
+}
+
+.navbar-links li {
+    display: inline;
+}
+
+.navbar-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    display: block; /* Đảm bảo các mục có block để dễ dàng căn chỉnh */
+}
+
+.navbar-links a:hover {
+    background-color: #333;
+    border-radius: 5px;
+}
+
+    
+
+
 /* Mobile screens (less than 768px) */
 @media screen and (min-width: 767px) {
     .weather-container,
