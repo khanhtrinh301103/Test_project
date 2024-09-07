@@ -9,14 +9,16 @@ from components.RainProbabilityChart import create_rain_probability_chart
 from components.RainSum import get_daily_rain_sum
 from components.RainSumChart import create_rain_sum_chart
 from components.locations import get_location_coordinates
+from components.TemperatureMap import create_temperature_map  # Import từ file TemperatureMap.py
 import json
 
 server = Flask(__name__)
 server.secret_key = 'supersecretkey'
 
+# Tạo Dash App cho các biểu đồ
 dash_app = create_dash_app(server)
 rain_probability_chart = create_rain_probability_chart(server)
-rain_sum_chart = create_rain_sum_chart(server)  # Thêm biểu đồ Daily Rain Sum
+rain_sum_chart = create_rain_sum_chart(server)
 
 @server.route('/', methods=['GET', 'POST'])
 def index():
@@ -54,10 +56,24 @@ def index():
     session['pred_data'] = pred_df.to_json()
     pred_json = pred_df.to_json()
 
+    # Tạo bản đồ nhiệt độ
+    temperature_map_json = create_temperature_map(weather_data, current_location, coords['latitude'], coords['longitude'])
+
     formatted_weather['location'] = current_location
 
-    return render_template('index.html', weather=formatted_weather, pred_data=pred_json)
+    return render_template('index.html', weather=formatted_weather, pred_data=pred_json, temp_map=temperature_map_json)
 
+# Route cho bản đồ nhiệt độ
+@server.route('/temperature_map/')
+def temperature_map():
+    current_location = session.get('location', 'Ho Chi Minh')
+    coords = get_location_coordinates(current_location)
+    weather_data = get_weather_data(coords['latitude'], coords['longitude'])
+
+    # Gọi hàm tạo bản đồ nhiệt độ từ file TemperatureMap.py
+    temperature_map_html = create_temperature_map(weather_data, current_location, coords['latitude'], coords['longitude'])
+
+    return temperature_map_html
 
 if __name__ == '__main__':
     server.run(debug=True)
