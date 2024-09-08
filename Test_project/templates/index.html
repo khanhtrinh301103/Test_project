@@ -14,7 +14,7 @@
         </div>
         <ul class="navbar-links">
             <li><a href="#">News</a></li>
-            <li><a href="#">Setting</a></li>
+            <li><a href="#" id="setting-btn">Setting</a></li> <!-- Button mở popup -->
             <li><a href="#">Notification</a></li>
         </ul>
     </nav>
@@ -107,5 +107,10 @@
 
         {% endif %}
     </div>
+    <!-- Include Popup HTML -->
+    {% include 'settings_popup.html' %}
+
+    <!-- Link to JavaScript -->
+    <script src="{{ url_for('static', filename='js/popup.js') }}"></script>
 </body>
 </html>
