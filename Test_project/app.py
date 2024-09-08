@@ -25,13 +25,16 @@ def index():
     if request.method == 'POST':
         selected_location = request.form.get('location')
         if selected_location:
-            session['location'] = selected_location
-        return redirect(url_for('index'))
+            session['location'] = selected_location  # Cập nhật location vào session
+        return redirect(url_for('index'))  # Sau khi chọn location, trang sẽ reload
 
+    # Lấy vị trí hiện tại từ session (nếu không có sẽ mặc định là Ho Chi Minh)
     current_location = session.get('location', 'Ho Chi Minh')
     
+    # Lấy tọa độ của vị trí hiện tại
     coords = get_location_coordinates(current_location)
     
+    # Lấy dữ liệu thời tiết dựa trên tọa độ hiện tại
     weather_data = get_weather_data(coords['latitude'], coords['longitude'])
     
     if not weather_data.get('daily'):
@@ -49,7 +52,7 @@ def index():
     rain_sum_df = get_daily_rain_sum(weather_data['daily'])
     session['rain_sum_data'] = rain_sum_df.to_json()
 
-    # Dự đoán xác suất mưa cho 14 ngày tới từ hôm nay
+    # Dự đoán xác suất mưa cho 14 ngày tới
     precipitation_probabilities = predict_precipitation_probability(weather_data['daily'], predict_next_14_days=True)
     session['precipitation_probabilities_14d'] = precipitation_probabilities
 
@@ -59,9 +62,10 @@ def index():
     # Tạo bản đồ nhiệt độ
     temperature_map_json = create_temperature_map(weather_data, current_location, coords['latitude'], coords['longitude'])
 
-    formatted_weather['location'] = current_location
+    formatted_weather['location'] = current_location  # Cập nhật location để hiển thị trên UI
 
     return render_template('index.html', weather=formatted_weather, pred_data=pred_json, temp_map=temperature_map_json)
+
 
 # Route cho bản đồ nhiệt độ
 @server.route('/temperature_map/')

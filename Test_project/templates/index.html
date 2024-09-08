@@ -38,14 +38,15 @@
                     <!-- Replace Ho Chi Minh with location form -->
                     <form method="POST" class="location-form">
                         <select name="location" class="location-select">
-                            <option value="Ho Chi Minh">Ho Chi Minh</option>
-                            <option value="Hanoi">Hanoi</option>
-                            <option value="Da Nang">Da Nang</option>
-                            <option value="Can Tho">Can Tho</option>
-                            <option value="Nha Trang">Nha Trang</option>
+                            <option value="Ho Chi Minh" {% if weather['location'] == 'Ho Chi Minh' %}selected{% endif %}>Ho Chi Minh</option>
+                            <option value="Hanoi" {% if weather['location'] == 'Hanoi' %}selected{% endif %}>Hanoi</option>
+                            <option value="Da Nang" {% if weather['location'] == 'Da Nang' %}selected{% endif %}>Da Nang</option>
+                            <option value="Can Tho" {% if weather['location'] == 'Can Tho' %}selected{% endif %}>Can Tho</option>
+                            <option value="Nha Trang" {% if weather['location'] == 'Nha Trang' %}selected{% endif %}>Nha Trang</option>
                         </select>
                         <button type="submit" class="get-started-btn">Get Started</button>
                     </form>
+                    
                     <div class="weather-temperature">{{ weather['temperature'] }}°C</div>
                 </div>
                 <div class="weather-details">
