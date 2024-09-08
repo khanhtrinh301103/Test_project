@@ -27,17 +27,7 @@
     
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Location Selection Form -->
-        <form method="POST">
-            <select name="location" class="btn bg-gray-700 text-white py-2 px-4 rounded">
-                <option value="Ho Chi Minh">Ho Chi Minh</option>
-                <option value="Hanoi">Hanoi</option>
-                <option value="Da Nang">Da Nang</option>
-                <option value="Can Tho">Can Tho</option>
-                <option value="Nha Trang">Nha Trang</option>
-            </select>
-            <button type="submit" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Get Started</button>
-        </form>
+        
 
         <!-- Weather Information -->
         {% if weather %}
@@ -45,7 +35,17 @@
         <div class="weather-container">
             <div class="weather-header">
                 <div>
-                    <h2>{{ weather['location'] }} <span style="font-size: 40px;">&#x1F4CD;</span></h2>
+                    <!-- Replace Ho Chi Minh with location form -->
+                    <form method="POST" class="location-form">
+                        <select name="location" class="location-select">
+                            <option value="Ho Chi Minh">Ho Chi Minh</option>
+                            <option value="Hanoi">Hanoi</option>
+                            <option value="Da Nang">Da Nang</option>
+                            <option value="Can Tho">Can Tho</option>
+                            <option value="Nha Trang">Nha Trang</option>
+                        </select>
+                        <button type="submit" class="get-started-btn">Get Started</button>
+                    </form>
                     <div class="weather-temperature">{{ weather['temperature'] }}°C</div>
                 </div>
                 <div class="weather-details">

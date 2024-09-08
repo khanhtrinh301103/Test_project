@@ -1,13 +1,11 @@
-/* backend/static/css/index.css */
 body, html {
     height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
-
 }
 
 #background-video {
-    position: fixed; /* Đặt video nền cố định */
+    position: fixed;
     top: 0;
     left: 0;
     min-width: 100%;
@@ -15,18 +13,19 @@ body, html {
     width: 100%;
     height: 100%;
     z-index: -1;
-    object-fit: cover; /* Đảm bảo video bao phủ toàn bộ khung hình */
+    object-fit: cover;
 }
 
 .main-content {
     position: relative;
     z-index: 1;
     padding: 20px;
+    margin-top: 50px;
 }
 
 /* Weather Container */
 .weather-container {
-    background: rgba(0, 0, 0, 0.5); /* Nền trong suốt */
+    background: rgba(0, 0, 0, 0.5);
     color: white;
     padding: 50px;
     border-radius: 15px;
@@ -34,6 +33,7 @@ body, html {
     margin: 30px auto;
     text-align: left;
     z-index: 1;
+    margin-top: 65px;
 }
 
 .weather-header h2 {
@@ -47,33 +47,70 @@ body, html {
 }
 
 .weather-temperature {
-    font-size: 200px; /* Kích thước phông chữ lớn cho nhiệt độ */
+    font-size: 70px;
     font-weight: bold;
-    color: #FFA500; /* Màu cam cho nhiệt độ */
+    color: #FFA500;
 }
 
 .weather-details {
-    font-size: 30px; /* Kích thước phông chữ cho chi tiết */
+    font-size: 30px;
     line-height: 1.8;
+}
+
+/* Location Form Styling */
+.location-form {
+    display: flex;
+    align-items: center;
+}
+
+.location-select {
+    font-size: 40px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.location-select option {
+    background-color: black;
+    color: white;
+}
+
+.get-started-btn {
+    font-size: 25px;
+    background-color: #FFA500;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.get-started-btn:hover {
+    background-color: #FF8C00;
 }
 
 /* Additional Weather Info Container */
 .additional-info-container {
-    background: rgba(112, 112, 112, 0.5); /* Nền trong suốt cho container thông tin thêm */
+    background: rgba(112, 112, 112, 0.5);
     color: white;
     border-radius: 15px;
-    width: 1100px;
+    width: 1200px;
     margin: 20px auto;
     text-align: center;
     display: flex;
     justify-content: space-between;
-    gap: 10px; /* Khoảng cách giữa các hộp thông tin */
+    gap: 10px;
 }
 
 .info-box {
-    background: rgba(0, 0, 0, 0.5); /* Nền trong suốt cho hộp thông tin */
+    background: rgba(0, 0, 0, 0.5);
     border-radius: 20px;
-    width: 22%; /* Đảm bảo các hộp có chiều rộng bằng nhau */
+    width: 22%;
     padding: 20px;
 }
 
@@ -83,24 +120,13 @@ body, html {
 
 /* Predicted Precipitation Chart */
 .predicted-precipitation-chart {
-    overflow: hidden; /* Loại bỏ thanh cuộn không cần thiết */
+    overflow: hidden;
     margin-top: 20px;
     padding: 20px;
 }
 
-.predicted-precipitation-chart h2 {
-    text-align: center; /* Căn giữa tiêu đề */
-    color: white;
-    margin-bottom: 20px;
-}
-
-iframe {
-    background-color: transparent; /* Làm nền của iframe trong suốt */
-    overflow: hidden;
-}
-
-.predicted-precipitation-chart-container{
-    background: rgba(0, 0, 0, 0.5); /* Nền trong suốt */
+.predicted-precipitation-chart-container {
+    background: rgba(0, 0, 0, 0.5);
     color: white;
     padding: 50px;
     border-radius: 15px;
@@ -112,26 +138,27 @@ iframe {
 
 .rain-probability-chart-container {
     width: 1100px;
-    margin: 0 auto; /* Canh giữa theo chiều ngang */
+    margin: 0 auto;
     padding: 20px 0;
     display: flex;
 }
+
 .rain-probability-chart {
     width: 100%;
     height: 600px;
     border: none;
     border-radius: 15px;
-    background: rgba(0, 0, 0, 0.5); /* Nền trong suốt */
+    background: rgba(0, 0, 0, 0.5);
     margin: 10px;
 }
 
 /* Navbar Styles */
 .navbar {
     display: flex;
-    justify-content: center; /* Căn giữa nội dung của thanh điều hướng */
+    justify-content: center;
     align-items: center;
-    padding: 20px; /* Thêm padding để tạo khoảng cách đều */
-    background-color: #1a1a1a;
+    padding: 20px;
+    background-color: #898484b5;
     color: white;
     position: fixed;
     top: 0;
@@ -146,7 +173,7 @@ iframe {
 .navbar-links {
     list-style: none;
     display: flex;
-    gap: 30px; /* Khoảng cách giữa các liên kết */
+    gap: 30px;
 }
 
 .navbar-links li {
@@ -158,59 +185,10 @@ iframe {
     color: white;
     font-size: 18px;
     padding: 10px 20px;
-    display: block; /* Đảm bảo các mục có block để dễ dàng căn chỉnh */
+    display: block;
 }
 
 .navbar-links a:hover {
     background-color: #333;
     border-radius: 5px;
-}
-
-    
-
-
-/* Mobile screens (less than 768px) */
-@media screen and (min-width: 767px) {
-    .weather-container,
-    .additional-info-container,.predicted-precipitation-chart-container,.rain-probability-chart-container {
-        width: 90%;
-        padding: 15px;
-    }
-
-    .info-box {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
-    .weather-temperature {
-        font-size: 35px;
-    }
-}
-
-@media(max-width:767px){
-    .weather-container,
-    .additional-info-container,.predicted-precipitation-chart-container,.rain-probability-chart-container {
-        width: 90%;
-        padding: 15px;
-    }
-    .additional-info-container{
-        display: block;
-    }
-    .info-box{
-        padding:0;
-    }
-    .rain-probability-chart{
-        margin-top: 10px;
-    }
-    .info-box {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
-    .weather-temperature {
-        font-size: 35px;
-    }
-    .rain-probability-chart-container{
-        flex-direction: column;
-    }
 }
