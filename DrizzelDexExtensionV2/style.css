@@ -1,0 +1,39 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    width:300px;
+    height: 400px;
+    background-image: url('images.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container{
+    width: 70%;
+    margin: 10px auto;
+}
+
+option, select, button{
+    border-radius: 15px;
+    padding:5px;
+}
+
+
+.element{
+    margin-top: 15px;
+    padding:10px;
+    border-radius: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+.weather-info{
+    margin: 15px;
+}
+
+
+

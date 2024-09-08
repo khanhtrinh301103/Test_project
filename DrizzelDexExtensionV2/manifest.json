@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "Drizzeldex",
+    "version": "2.0",
+    "description": "Current Weather and Weather Forecast",
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "Drizzeldex.png"
+    },
+    "host_permissions": [
+        "http://127.0.0.1:5000/*",
+        "https://api.open-meteo.com/*"
+    ]
+}
+
