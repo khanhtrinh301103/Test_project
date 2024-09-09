@@ -10,11 +10,11 @@ Trong index.html
 thêm  class="rainprobability" vào div dưới này
 <div>Rain probability: {{ weather['precipitation_probability'] }}%</div>
 
+Trong app.py:
 pip install flask-cors
 from flask_cors import CORS
 
 
-để sau định nghĩa server
-CORS(server)
+để CORS(server) ở dưới server.secrectkey
 
 http://127.0.0.1:5000/
