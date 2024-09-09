@@ -5,7 +5,10 @@ conda activate env_data_analysis
 cd Test_project
 python app.py
 
-Update 
+Update:
+Trong index.html 
+thêm  class="rainprobability" vào div dưới này
+<div>Rain probability: {{ weather['precipitation_probability'] }}%</div>
 
 pip install flask-cors
 from flask_cors import CORS
