@@ -52,7 +52,7 @@
                 <div class="weather-details">
                     <div>Wind speed: {{ weather['windspeed'] }} km/h</div>
                     <div>Day/Night: {{ 'Day' if weather['is_day'] == 1 else 'Night' }}</div>
-                    <div>Rain probability: {{ weather['precipitation_probability'] }}%</div>
+                    <div class="rainprobability">Rain probability: {{ weather['precipitation_probability'] }}%</div>
                 </div>
             </div>
         </div>
