@@ -17,7 +17,7 @@ def create_dash_app(server):
         [Input('precipitation-graph', 'id')]
     )
     def update_graph(_):
-        # Lấy dữ liệu từ session Flask
+        # Lấy dữ liệu dự đoán từ session Flask
         pred_data_json = session.get('pred_data', None)
 
         if pred_data_json:
