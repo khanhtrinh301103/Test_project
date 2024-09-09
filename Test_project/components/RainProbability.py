@@ -7,7 +7,7 @@ from tensorflow.keras.regularizers import l2
 import os
 import pickle
 
-# Hàm để lưu model và scaler
+# Hàm để lưu model và scaler (chỉ lưu mô hình và scaler, không lưu dữ liệu dự đoán)
 def save_model_and_scaler(model, feature_scaler, target_scaler, model_path='models/rain_probability_model.h5', scaler_path='models/'):
     # Lưu mô hình
     if not os.path.exists('models'):
@@ -42,7 +42,7 @@ def load_model_and_scaler(model_path='models/rain_probability_model.h5', scaler_
 
     return model, feature_scaler, target_scaler
 
-# Hàm huấn luyện và lưu model
+# Hàm huấn luyện và lưu model (chỉ lưu quá trình huấn luyện)
 def train_and_save_rain_probability_model(df):
     features = df.columns.difference(['precipitation_sum'])
     target = 'precipitation_sum'
@@ -76,14 +76,15 @@ def train_and_save_rain_probability_model(df):
 
     model.compile(optimizer='adam', loss='mse')
 
+    # Huấn luyện mô hình
     model.fit(X, y, epochs=200, batch_size=16, validation_split=0.2, verbose=0, shuffle=False)
 
-    # Lưu mô hình và scaler
+    # Lưu mô hình và scaler (chỉ lưu sau khi huấn luyện, không lưu kết quả dự đoán)
     save_model_and_scaler(model, feature_scaler, target_scaler)
 
     return model, feature_scaler, target_scaler
 
-# Hàm dự đoán xác suất mưa
+# Hàm dự đoán xác suất mưa (chỉ dự đoán mà không lưu lại)
 def predict_precipitation_probability(data, predict_next_14_days=False):
     if not data.get('time') or not data.get('temperature_2m_max'):
         raise ValueError("Missing necessary fields in daily data")
@@ -103,7 +104,7 @@ def predict_precipitation_probability(data, predict_next_14_days=False):
     df.set_index('date', inplace=True)
     df.fillna(0, inplace=True)
 
-    # Kiểm tra và huấn luyện mô hình nếu cần
+    # Kiểm tra và huấn luyện mô hình nếu cần (chỉ huấn luyện nếu chưa có)
     try:
         model, feature_scaler, target_scaler = load_model_and_scaler()
     except FileNotFoundError:
@@ -124,7 +125,7 @@ def predict_precipitation_probability(data, predict_next_14_days=False):
         precipitation_probability = np.minimum(predicted_precipitation[0][0] * 10, 100)
         predictions.append(precipitation_probability)
 
-        # Cập nhật last_14_days với giá trị dự đoán mới
+        # Cập nhật last_14_days với giá trị dự đoán mới (không lưu giá trị dự đoán này)
         new_row = np.hstack((X_pred[0, -1, :-1], y_pred[0]))  # Chèn giá trị mới vào cuối
         last_14_days = np.vstack((last_14_days[1:], new_row))  # Xóa hàng đầu tiên và thêm hàng mới
 
