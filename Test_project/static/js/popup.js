@@ -8,9 +8,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeBtn = document.getElementById('close-btn'); // Nút đóng popup
 
     if (settingBtn && settingsPopup) {
-        // Mở popup khi nhấn vào nút Setting
+        // Mở/Đóng popup khi nhấn vào nút Setting
         settingBtn.onclick = () => {
-            settingsPopup.style.display = 'block';
+            if (settingsPopup.style.display === 'block') {
+                settingsPopup.style.display = 'none'; // Đóng popup
+            } else {
+                settingsPopup.style.display = 'block'; // Mở popup
+            }
         };
 
         // Đóng popup khi nhấn vào nút Save

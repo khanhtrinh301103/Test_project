@@ -243,3 +243,82 @@ body, html {
 .close-btn:hover {
     color: #ff0000;
 }
+
+/* Style for Notification Popup */
+.notification-popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.notification-popup-content {
+    text-align: left;
+    position: relative;
+}
+
+.notification-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.notification-close-btn:hover {
+    color: #ff0000;
+}
+
+.notification-form {
+    display: flex;
+    align-items: center;
+}
+
+.notification-email-label {
+    font-size: 14px;
+    margin-right: 10px;
+    color: #555;
+}
+
+.notification-email-input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.notification-subscribe-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.notification-checkmark {
+    fill: none;
+    stroke: #000;
+    stroke-width: 2;
+}
+
+.notification-weather-image {
+    margin-top: 20px;
+    width: 100px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.checkmark-image {
+    width: 24px; /* Điều chỉnh kích thước của hình ảnh */
+    height: 24px;
+    cursor: pointer;
+    display: block;
+}
