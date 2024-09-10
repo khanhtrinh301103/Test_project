@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_cors import CORS
 import pandas as pd
 from components.api import get_weather_data
@@ -11,6 +11,7 @@ from components.RainSum import get_daily_rain_sum
 from components.RainSumChart import create_rain_sum_chart
 from components.locations import get_location_coordinates
 from components.TemperatureMap import create_temperature_map
+from components.chatbot import process_user_message  # Import từ chatbot.py
 import os
 import json
 
@@ -95,6 +96,13 @@ def temperature_map():
     temperature_map_html = create_temperature_map(weather_data, current_location, coords['latitude'], coords['longitude'])
 
     return temperature_map_html
+
+# Route cho chatbot xử lý câu hỏi từ người dùng
+@server.route('/chatbot', methods=['POST'])
+def chatbot():
+    user_input = request.json.get('message')  # Lấy tin nhắn từ yêu cầu của người dùng
+    response = process_user_message(user_input)  # Gọi hàm xử lý từ chatbot.py
+    return jsonify({"response": response})  # Trả về phản hồi dưới dạng JSON
 
 if __name__ == '__main__':
     server.run(debug=True)

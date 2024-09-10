@@ -15,7 +15,7 @@
         <ul class="navbar-links">
             <li><a href="#">News</a></li>
             <li><a href="#" id="setting-btn">Setting</a></li> <!-- Button mở popup -->
-            <li><a href="#" id="notification-btn">Notification</a></li>
+            <li><a href="#" id="chatbot-open-btn" class="open-chatbot-btn">Weather GPT</a></li>
         </ul>
     </nav>
 
@@ -109,10 +109,9 @@
     </div>
     <!-- Include Popup HTML -->
     {% include 'settings_popup.html' %}
-    {% include 'notification_popup.html' %}
-
+    {% include 'chatbot_popup.html' %}
     <!-- Link to JavaScript -->
     <script src="{{ url_for('static', filename='js/popup.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/notification_popup.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chatbot_popup.js') }}"></script>
 </body>
 </html>

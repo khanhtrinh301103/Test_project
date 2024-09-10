@@ -244,81 +244,166 @@ body, html {
     color: #ff0000;
 }
 
-/* Style for Notification Popup */
-.notification-popup {
-    display: none; /* Hidden by default */
+/* Styles for Chat Bot Popup */
+.chatbot-popup {
+    display: none; /* Hidden by default, mở khi nhấn vào nút mở */
     position: fixed;
+    width: 800px;
+    height: 600px;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 500px;
-    background-color: #f9f9f9;
+    transform: translate(-50%, -50%); /* Căn giữa theo cả chiều ngang và dọc */
+    background-color: #fff;
     border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+    overflow: hidden;
 }
 
-.notification-popup-content {
-    text-align: left;
-    position: relative;
-}
-
-.notification-close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-}
-
-.notification-close-btn:hover {
-    color: #ff0000;
-}
-
-.notification-form {
+.chatbot-popup-header {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    color: #fff;
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
-.notification-email-label {
-    font-size: 14px;
-    margin-right: 10px;
-    color: #555;
+.chatbot-popup-header h3 {
+    justify-content: center;
+    margin: 0;
 }
 
-.notification-email-input {
-    flex: 1;
+.chatbot-close-btn {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.chatbot-popup-content {
     padding: 10px;
-    border-radius: 5px;
+    height: calc(100% - 50px); /* Adjust height to fit the content */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chatbot-messages {
+    height: 85%;
+    overflow-y: auto;
+    padding-right: 5px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hiệu ứng cho tin nhắn */
+@keyframes slide-in-right {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-left {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Hiệu ứng cho tin nhắn mới gửi */
+.message-slide-in-right {
+    animation: slide-in-right 0.3s ease-out;
+}
+
+/* Hiệu ứng cho tin nhắn bot */
+.message-slide-in-left {
+    animation: slide-in-left 0.5s ease-out;
+}
+
+/* Tin nhắn của người dùng */
+.user-message {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    align-self: flex-end; /* Tin nhắn của người dùng nằm bên phải */
+    text-align: right;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 80%;
+    margin: 5px 0;
+}
+
+/* Tin nhắn của bot */
+.bot-message {
+    background-color: #f1f1f1;
+    color: black;
+    align-self: flex-start; /* Tin nhắn của chatbot nằm bên trái */
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 80%;
+    margin: 5px 0;
+}
+
+/* Hiệu ứng typing cho bot */
+@keyframes typing {
+    0% {
+        content: '';
+    }
+    33% {
+        content: '.';
+    }
+    66% {
+        content: '..';
+    }
+    100% {
+        content: '...';
+    }
+}
+
+.typing-indicator {
+    font-style: italic;
+    color: gray;
+    display: inline-block;
+    width: 20px;
+    text-align: left;
+    animation: typing 1s steps(3, end) infinite;
+}
+
+.chatbot-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chatbot-input {
+    width: 80%;
+    padding: 8px;
     border: 1px solid #ccc;
-    font-size: 14px;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
-.notification-subscribe-btn {
-    background-color: transparent;
+.chatbot-submit-btn {
+    padding: 8px 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
+    margin-bottom: 10px;
 }
 
-.notification-checkmark {
-    fill: none;
-    stroke: #000;
-    stroke-width: 2;
+.chatbot-submit-btn:hover {
+    background-color: #0056b3;
 }
 
-.notification-weather-image {
-    margin-top: 20px;
-    width: 100px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
 
-.checkmark-image {
-    width: 24px; /* Điều chỉnh kích thước của hình ảnh */
-    height: 24px;
-    cursor: pointer;
-    display: block;
-}
+
