@@ -1,7 +1,9 @@
 import spacy
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
-from components.api import get_weather_data
+from components.chatbotAPI import get_chatbot_weather_data
+import json
+import os
 
 nlp = spacy.load("en_core_web_sm")
 
@@ -11,11 +13,19 @@ location_coordinates = {
     "ho chi minh": {"latitude": 10.8231, "longitude": 106.6297},
     "hanoi": {"latitude": 21.0285, "longitude": 105.8542},
     "london": {"latitude": 51.5074, "longitude": -0.1278},
-    # Thêm các thành phố khác theo nhu cầu
+    "paris": {"latitude": 48.8566, "longitude": 2.3522},
+    "new york": {"latitude": 40.7128, "longitude": -74.0060},
+    "tokyo": {"latitude": 35.6762, "longitude": 139.6503},
+    "sydney": {"latitude": -33.8688, "longitude": 151.2093},
+    
+    # Thêm nhiều thành phố khác
 }
 
 user_location_memory = None  # Lưu vị trí người dùng
 user_weather_type_memory = None  # Lưu loại thời tiết người dùng
+
+# Đường dẫn đến file JSON chứa câu hỏi và câu trả lời
+qa_file_path = os.path.join(os.path.dirname(__file__), '../data/conversation.json')
 
 # Hàm để tìm vị trí gần đúng nhất dựa trên Fuzzy Matching
 def find_closest_match(input_location, possible_locations):
@@ -29,7 +39,7 @@ def analyze_question(user_input):
     global user_location_memory, user_weather_type_memory
     doc = nlp(user_input.lower())
     location = None
-    weather_type = None
+    weather_types = []
 
     # Xác định địa điểm từ câu hỏi và sử dụng fuzzy matching cho sai chính tả
     possible_locations = list(location_coordinates.keys())
@@ -44,47 +54,45 @@ def analyze_question(user_input):
     if not location and user_location_memory:
         location = user_location_memory
 
-    # Dựa vào các từ khóa và mô hình phân tích, xác định loại thông tin thời tiết
+    # Dựa vào các từ khóa và mô hình phân tích, xác định nhiều loại thông tin thời tiết
     if "temperature" in user_input or "hot" in user_input:
-        weather_type = "temperature"
-    elif "rain" in user_input or "precipitation" in user_input:
-        weather_type = "rain"
-    elif "humidity" in user_input:
-        weather_type = "humidity"
-    elif "cloud" in user_input or "cloud cover" in user_input:
-        weather_type = "cloudcover"
-    elif "weather" in user_input:
-        weather_type = "all"
+        weather_types.append("temperature")
+    if "rain" in user_input or "precipitation" in user_input:
+        weather_types.append("rain")
+    if "humidity" in user_input:
+        weather_types.append("humidity")
+    if "cloud" in user_input or "cloud cover" in user_input:
+        weather_types.append("cloudcover")
+    if "wind" in user_input:
+        weather_types.append("wind")
+    if "pressure" in user_input:
+        weather_types.append("pressure")
+    if "uv" in user_input or "uv index" in user_input:
+        weather_types.append("uv_index")
+    if "sunrise" in user_input:
+        weather_types.append("sunrise")
+    if "sunset" in user_input:
+        weather_types.append("sunset")
+    if "weather" in user_input and not weather_types:  # Nếu người dùng hỏi chung chung về thời tiết
+        weather_types.append("all")
 
-    # Nếu loại thời tiết chưa được xác định, sử dụng từ bộ nhớ
-    if not weather_type and user_weather_type_memory:
-        weather_type = user_weather_type_memory
+    return location, weather_types
 
-    # Ghi nhớ loại thời tiết nếu đã xác định được
-    if weather_type:
-        user_weather_type_memory = weather_type
-
-    return location, weather_type
-
-# Hàm xử lý và trả lời câu hỏi của người dùng
-def get_chatbot_response(user_input):
-    location, weather_type = analyze_question(user_input)
-
-    if not location:
-        return "Please specify the location you're asking about (e.g., Hanoi, London, Washington)."
-    
-    if not weather_type:
-        return "Please specify what weather information you're asking for (e.g., temperature, rain, cloud cover)."
-
-    coords = location_coordinates.get(location)
-    
-    # Gọi API để lấy dữ liệu thời tiết
+# Hàm tìm câu hỏi trong file JSON
+def find_question_in_json(user_input):
     try:
-        weather_data = get_weather_data(coords['latitude'], coords['longitude'])
-    except KeyError as e:
-        return f"Error fetching weather data: {e}"
+        with open(qa_file_path, "r") as file:
+            data = json.load(file)
+            for qa_pair in data:
+                for question in qa_pair["questions"]:
+                    if fuzz.ratio(user_input.lower(), question.lower()) > 70:  # Fuzzy matching
+                        return qa_pair['weather_type']
+    except FileNotFoundError:
+        return None
+    return None
 
-    # Trả lời dựa trên loại thông tin yêu cầu
+# Hàm phụ để sinh câu trả lời cho từng loại thông tin
+def generate_weather_response(weather_data, location, weather_type):
     if weather_type == "temperature":
         temp = weather_data['current_weather']['temperature']
         return f"The current temperature in {location.title()} is {temp}°C."
@@ -97,6 +105,21 @@ def get_chatbot_response(user_input):
     elif weather_type == "cloudcover":
         cloud_cover = weather_data['hourly']['cloudcover'][0]
         return f"The current cloud cover in {location.title()} is {cloud_cover}%."
+    elif weather_type == "wind":
+        wind_speed = weather_data['current_weather']['windspeed']
+        return f"The current wind speed in {location.title()} is {wind_speed} km/h."
+    elif weather_type == "pressure":
+        pressure = weather_data['current_weather']['pressure_msl']
+        return f"The current pressure in {location.title()} is {pressure} hPa."
+    elif weather_type == "uv_index":
+        uv_index = weather_data['current_weather'].get('uv_index', 'No UV data available')
+        return f"The UV index today in {location.title()} is {uv_index}."
+    elif weather_type == "sunrise":
+        sunrise_time = weather_data['daily']['sunrise'][0]
+        return f"The sunrise time today in {location.title()} is at {sunrise_time}."
+    elif weather_type == "sunset":
+        sunset_time = weather_data['daily']['sunset'][0]
+        return f"The sunset time today in {location.title()} is at {sunset_time}."
     elif weather_type == "all":
         temp = weather_data['current_weather']['temperature']
         rain_probability = weather_data['daily']['precipitation_probability_max'][0]
@@ -107,8 +130,36 @@ def get_chatbot_response(user_input):
                 f"Rain Probability: {rain_probability}%\n"
                 f"Humidity: {humidity}%\n"
                 f"Cloud Cover: {cloud_cover}%")
-
     return "Sorry, I couldn't fetch the specific weather information you asked for."
+
+# Hàm xử lý và trả lời câu hỏi của người dùng
+def get_chatbot_response(user_input):
+    location, weather_types = analyze_question(user_input)
+
+    # Nếu không tìm thấy thông tin thời tiết, tìm trong file JSON
+    if not location or not weather_types:
+        weather_type_from_json = find_question_in_json(user_input)
+        if weather_type_from_json:
+            weather_types = [weather_type_from_json]
+
+    if not location:
+        return "Please specify the location you're asking about (e.g., Hanoi, London, Washington)."
+    
+    if not weather_types:
+        return "Please specify what weather information you're asking for (e.g., temperature, rain, cloud cover)."
+
+    coords = location_coordinates.get(location)
+    
+    # Gọi API mới từ chatbotAPI để lấy dữ liệu thời tiết
+    try:
+        weather_data = get_chatbot_weather_data(coords['latitude'], coords['longitude'])
+    except KeyError as e:
+        return f"Error fetching weather data: {e}"
+
+    # Xử lý nhiều loại thông tin thời tiết
+    responses = [generate_weather_response(weather_data, location, w_type) for w_type in weather_types]
+    
+    return " ".join(responses)
 
 # Hàm chính để bot xử lý câu hỏi từ người dùng
 def process_user_message(user_input):
