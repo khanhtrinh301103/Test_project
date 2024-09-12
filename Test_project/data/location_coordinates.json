@@ -2,7 +2,7 @@
   "hanoi": {"latitude": 21.0285, "longitude": 105.8542},
   "ho chi minh": {"latitude": 10.8231, "longitude": 106.6297},
   "can tho": {"latitude": 10.0452, "longitude": 105.7469},
-  "nha trang": {"latitude": 12.2388, "longitude": 109.1967},
+  "nha trang": {"latitude": 12.2388, "longitude": 109.1967},  
   "paris": {"latitude": 48.8566, "longitude": 2.3522},
   "new york": {"latitude": 40.7128, "longitude": -74.0060},
   "tokyo": {"latitude": 35.6762, "longitude": 139.6503},
