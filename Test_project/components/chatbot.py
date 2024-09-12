@@ -7,25 +7,22 @@ import os
 
 nlp = spacy.load("en_core_web_sm")
 
-# Tạo một dictionary để lưu tọa độ của các thành phố phổ biến
-location_coordinates = {
-    "washington": {"latitude": 38.8951, "longitude": -77.0364},
-    "ho chi minh": {"latitude": 10.8231, "longitude": 106.6297},
-    "hanoi": {"latitude": 21.0285, "longitude": 105.8542},
-    "london": {"latitude": 51.5074, "longitude": -0.1278},
-    "paris": {"latitude": 48.8566, "longitude": 2.3522},
-    "new york": {"latitude": 40.7128, "longitude": -74.0060},
-    "tokyo": {"latitude": 35.6762, "longitude": 139.6503},
-    "sydney": {"latitude": -33.8688, "longitude": 151.2093},
-    
-    # Thêm nhiều thành phố khác
-}
-
 user_location_memory = None  # Lưu vị trí người dùng
 user_weather_type_memory = None  # Lưu loại thời tiết người dùng
 
+# Đường dẫn đến file JSON chứa tọa độ các địa điểm
+location_file_path = os.path.join(os.path.dirname(__file__), '../data/location_coordinates.json')
+
 # Đường dẫn đến file JSON chứa câu hỏi và câu trả lời
 qa_file_path = os.path.join(os.path.dirname(__file__), '../data/conversation.json')
+
+# Hàm để tải dữ liệu tọa độ từ JSON
+def load_location_data():
+    try:
+        with open(location_file_path, "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {}
 
 # Hàm để tìm vị trí gần đúng nhất dựa trên Fuzzy Matching
 def find_closest_match(input_location, possible_locations):
@@ -40,6 +37,9 @@ def analyze_question(user_input):
     doc = nlp(user_input.lower())
     location = None
     weather_types = []
+
+    # Tải danh sách địa điểm từ file JSON
+    location_coordinates = load_location_data()
 
     # Xác định địa điểm từ câu hỏi và sử dụng fuzzy matching cho sai chính tả
     possible_locations = list(location_coordinates.keys())
@@ -148,8 +148,11 @@ def get_chatbot_response(user_input):
     if not weather_types:
         return "Please specify what weather information you're asking for (e.g., temperature, rain, cloud cover)."
 
-    coords = location_coordinates.get(location)
-    
+    coords = load_location_data().get(location)  # Lấy tọa độ từ JSON
+
+    if not coords:
+        return f"Sorry, I could not find the coordinates for {location.title()}."
+
     # Gọi API mới từ chatbotAPI để lấy dữ liệu thời tiết
     try:
         weather_data = get_chatbot_weather_data(coords['latitude'], coords['longitude'])

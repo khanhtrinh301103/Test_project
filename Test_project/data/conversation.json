@@ -23,5 +23,11 @@
         "What is the temperature and rain probability in Hanoi?"
       ],
       "weather_type": ["temperature", "rain"] 
+    },
+    {
+      "questions": [
+        "what is the weather in marid ?"
+      ],
+      "weather_type": "all"
     }
 ]
