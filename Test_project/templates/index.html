@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="../static/css/news.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
     <title>Weather Dashboard</title>
 </head>
 <body>
@@ -110,8 +113,304 @@
     <!-- Include Popup HTML -->
     {% include 'settings_popup.html' %}
     {% include 'chatbot_popup.html' %}
+    <section id="news">
+        <!-- Slider main container -->
+        <div class="swiper">
+            <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+              <!-- Slides -->
+                    <div class="swiper-slide" id="slide1">
+                        <div>
+                            <h2>Thunder Storm Expected to Discrupt Evening Commute In Ho Chi Minh</h2>
+                            <p style="font-size: 22px;">Ho Chi Minh City is forecasted to experience severe thunderstorms during the evening rush hour. Commuters should expect delays and plan for a wet journey home.</p>
+                        </div>
+                        <a href="#news1"><h3>See Detail</h3></a>
+                    </div>
+                    <div class="swiper-slide" id="slide2">
+                        <div>
+                            <h2>Intense Heatwave Grips Ho Chi Minh City: Temperatures Soar Above 38°C</h2>
+                            <p style="font-size: 22px;" >Ho Chi Minh City is experiencing a severe heatwave with temperatures exceeding 38°C. Residents are urged to stay indoors during peak hours and stay hydrated as the extreme heat poses health risks</p>
+                        </div>                            
+                        <a href="#news2"><h3>See Detail</h3></a>
+                    </div>
+                    <div class="swiper-slide" id="slide3">
+                        <div>
+                            <h2>Severe Storm Warning Issued for Ho Chi Minh City</h2>
+                            <p style="font-size: 22px;">Ho Chi Minh City is under a severe storm alert with heavy rain and strong winds predicted later today. Residents are advised to prepare for potential flooding and power outages.</p>
+                        </div>
+                        <a href="#news3"><h3>See Detail</h3></a>
+                    </div>
+                </div>
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+          
+             <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+          
+                <!-- If we need scrollbar -->
+                <div class="swiper-scrollbar"></div>
+            </div>
+            <!-- Evening Thunderstorms to Disrupt Commute in Ho Chi Minh City -->
+            <div class="modal overlay" id="news1">
+                <a href="#news" class="overlay-close"></a>
+                <div class="modal-body">
+                    <img class="newscontent1" src="../static/images/Vietnam.jpeg" alt="">
+                    <div class="newscontent2">
+                        <div class="newscontent2_1">
+                            <div>
+                                <p> Commuters in Ho Chi Minh City should brace for severe thunderstorms expected to hit during the evening rush hour.
+                                     The storms are likely to bring heavy rain, frequent lightning, and gusty winds, leading to potential travel delays and hazardous driving conditions.  
+                                </p>
+                                <p>Current Weather Forecast:</p>
+                                <div>
+                                    <ul>
+                                        <li>Rain Intensity: Thunderstorms are expected to produce up to 25 mm of rain per hour, causing temporary flooding in low-lying areas.</li>
+                                        <li>Wind Gusts: Wind speeds could reach 50 km/h, posing risks to drivers and pedestrians alike.</li>
+                                        <li>Lightning Risk: Frequent lightning strikes are anticipated, increasing the danger of outdoor activities.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div>
+                                <p>Commuter Advisory:</p>
+                                <ul>
+                                    <li>Plan Ahead: Check real-time traffic updates and consider leaving work early to avoid the worst of the storm.</li>
+                                    <li>Limit Outdoor Activities: Avoid strenuous activities, especially during midday when temperatures peak.</li>
+                                    <li>Public Transport: Expect delays on public transport; carry an umbrella or raincoat if walking.</li>
+                                </ul>
+                                <p>Stay tuned to DrizzleDex for live updates and alerts to help navigate the evening commute safely.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="newscontent3">
+                        <div>
+                            <p>Friday, 6 Sep 2024</p>
+                            <p>Evening Thunderstorms to Disrupt Commute in Ho Chi Minh City</p>
+                            <p>Published by AI</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Heatwave Alert: High Temperatures and Health Risks in Ho Chi Minh City -->
+            <div class="modal overlay" id="news2">
+                <a href="#news" class="overlay-close"></a>
+                <div class="modal-body">
+                    <img class="newscontent1" src="../static/images/Intense.jpeg" alt="">
+                    <div class="newscontent2">
+                        <div class="newscontent2_1">
+                            <div>
+                                <p> Ho Chi Minh City is currently facing an intense heatwave with temperatures surpassing 35°C, making it one of the hottest days of the month.
+                                    The heat index, combined with high humidity, is pushing the "feels like" temperature close to 40°C, increasing the risk of heat-related illnesses.
+                                </p>
+                                <p>Current Weather Conditions:</p>
+                                <div>
+                                    <ul>
+                                        <li>Temperature: The mercury has hit 35°C, with the real-feel temperature nearing 40°C due to 75% humidity.</li>
+                                        <li>Humidity: High humidity levels are contributing to the oppressive heat, making outdoor activities challenging.</li>
+                                        <li>Heat Index: The heat index is at a dangerous level, making prolonged exposure to outdoor conditions hazardous.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div>
+                                <p>Health and Safety Tips:</p>
+                                <ul>
+                                    <li>Stay Hydrated: Drink plenty of water and avoid caffeinated or sugary beverages.</li>
+                                    <li>Limit Outdoor Activities: Avoid strenuous activities, especially during midday when temperatures peak.</li>
+                                    <li>Cool Down: Use fans, air conditioning, or visit public cooling centers to stay cool.</li>
+                                    <li>Local authorities advise vulnerable groups such as the elderly, children, and those with chronic illnesses to take extra precautions.</li>
+                                    <li>Keep updated on the latest weather forecasts on DrizzleDex and stay safe during this heatwave.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="newscontent3">
+                        <div>
+                            <p>Friday, 9 Aug 2024</p>
+                            <p>Heatwave Alert: High Temperatures and Health Risks in Ho Chi Minh City</p>
+                            <p>Published by AI</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Severe Storm Warning Issued for Ho Chi Minh City: What You Need to Know -->
+            <div class="modal overlay" id="news3">
+                <a href="#news" class="overlay-close"></a>
+                <div class="modal-body">
+                    <img class="newscontent1" src="../static/images/Storm.jpeg" alt="">
+                    <div class="newscontent2">
+                        <div class="newscontent2_1">
+                            <div>
+                                <p> Ho Chi Minh City is preparing for a severe storm expected to bring heavy rain,
+                                     strong winds, and potential flooding starting this afternoon. 
+                                     The storm is forecasted to hit around 3:00 PM, with wind speeds reaching up to 60 km/h and rainfall exceeding 100 mm in some areas.  
+                                </p>
+                                <p>Current Conditions:</p>
+                                <div>
+                                    <ul>
+                                        <li>Temperature: The mercury has hit 35°C, with the real-feel temperature nearing 40°C due to 75% humidity.</li>
+                                        <li>Wind: Currently 20 km/h from the southeast, expected to strengthen.</li>
+                                        <li>Rain Probability: 80% chance of rain starting early afternoon, peaking between 5:00 PM and 8:00 PM.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div>
+                                <p>What to Expect:</p>
+                                <ul>
+                                    <li>Heavy Rain: Intense showers with the heaviest downpours in the late afternoon.</li>
+                                    <li>Limit Outdoor Activities: Avoid strenuous activities, especially during midday when temperatures peak.</li>
+                                    <li>Flood Risk: Areas prone to flooding should prepare as water levels may rise quickly.</li>
+                                </ul>
+                                <p>Safety Tips</p>
+                                <ul>
+                                    <li>Stay Indoors: Avoid unnecessary outings and secure loose items.</li>
+                                    <li>Travel Cautions: Check public transport and road conditions; avoid flooded routes.</li>
+                                    <li>Power Outages: Charge devices and gather emergency supplies.</li>
+                                </ul>
+                                <p>Stay updated with DrizzleDex for live weather updates and safety information.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="newscontent3">
+                        <div>
+                            <p>Sunday, 7 July 2024</p>
+                            <p>Severe Storm Warning Issued for Ho Chi Minh City: What You Need to Know</p>
+                            <p>Published by AI</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <!-- News end -->
+        <!-- footer start -->
+    <footer id="footer">
+        <div class="footer_box">
+            <p>© Copyright 2024</p>
+            <p>Developed with dedication at RMIT University.</p>
+            <p>This website is intended solely for educational purposes and is not for commercial use.</p>
+            <p><a style="text-decoration: none; color: white;" href="#About">About Us</a> | <a style="text-decoration: none; color: white;" href="#privacy">Privacy Policy</a> | <a style="text-decoration: none; color: white;" href="#term">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <!-- ~about_us -->
+    <div class="footer overlay" id="About">
+        <a href="#footer" class="overlay-close"></a>
+        <div class="footer-body" >
+            <div class="aboutus_top">
+                <h2 style="color:yellow">~ About Us</h2>
+                <div><a href="#footer">X</a></div>
+            </div>
+            <div class="aboutus_mid">
+                <div>
+                    <H1>We Help You Plan for The Rain</H1>
+                    <h2>DrizzleDex keeps you rain-ready with accurate forecasts. Access reliable updates anytime to plan your day and stay dry.</h2>
+                    <p>DrizzleDex was created to make rain forecasts simple and reliable.
+                         Many weather predictions can be confusing, leaving people unprepared.
+                          Using advanced technology, DrizzleDex transforms complex data into clear insights,
+                           helping you stay one step ahead of the rain.</p>
+                </div>
+                <img src="../static/images/logo.png" alt="">
+            </div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- ~ Term -->
+    <div class="footer overlay" id="term">
+        <a href="#footer" class="overlay-close"></a>
+        <div style="height: auto;" class="footer-body" >
+            <div class="aboutus_top">
+                <h2 style="color:yellow">~ Terms of Service</h2>
+                <div><a href="#footer">X</a></div>
+            </div>
+            <div class="aboutus_mid">
+                <div>
+                    <H1>Terms of Service for DrizzleDex</H1>
+                    <p>Welcome to DrizzleDex! By using our services, you agree to these terms. Please read them carefully.</p>
+                    <p style="font-weight: bold;">1. Use of Service:</p>
+                    <p>DrizzleDex, developed with dedication at RMIT University, provides rain forecasts for personal and educational use only.
+                         This website is built solely for educational purposes and is not intended for commercial use or profit-making activities.</p>
+                    <p style="font-weight: bold;">2. Accuracy:</p>
+                    <p>We strive to provide accurate forecasts, but we do not guarantee complete precision.
+                         Use our information as a general guide, not for making critical decisions.</p>
+                    <p style="font-weight: bold;">How We Use It:</p>
+                    <p>Your email is used to send updates, respond to inquiries, and provide information related to our services.</p>
+                    <p style="font-weight: bold;">3. Intellectual Property:</p>
+                    <p>© Copyright 2024 Developed with dedication at RMIT University. 
+                        All content on DrizzleDex, including forecasts, graphics, and software,
+                         is protected by copyright laws. You may not reproduce, distribute,
+                          or use any content for commercial purposes without explicit permission.
+                    </p>
+                    <p style="font-weight: bold;">4. Liability:</p>
+                    <p>DrizzleDex is not liable for any damages resulting from the use
+                         or inability to use our forecasts. Use the service at your own risk.</p>
+                    <p style="font-weight: bold;">5. Changes to Terms:</p>
+                    <p>We may update these terms periodically. Continued use of DrizzleDex after updates constitutes acceptance of the new terms.</p>
+                    <p style="font-weight: bold;">6. Educational Purpose:</p>
+                    <p>This website is built solely for educational purposes. Any commercial use, including generating profit or conducting business activities, is strictly prohibited.</p>
+                </div>
+                <div class="footer_logo"><img src="../static/images/term.jpeg" alt=""></div>
+            </div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- privacy -->
+    <div class="footer overlay" id="privacy">
+        <a href="#footer" class="overlay-close"></a>
+        <div style="height: auto;" class="footer-body" >
+            <div class="aboutus_top">
+                <h2 style="color:yellow">~ Privacy Policy</h2>
+                <div><a href="#footer">X</a></div>
+            </div>
+            <div class="aboutus_mid">
+                <div class="aboutus_mid_1">
+                    <H1>Privacy Policy for DrizzleDex</H1>
+                    <p style="font-weight: bold;">At Drizzeldex</p>
+                    <p>we value your privacy and are committed to protecting your personal information. This policy outlines how we handle your data.</p>
+                    <p style="font-weight: bold;">What We Collect:</p>
+                    <p>We only collect your email address when you choose to subscribe or contact us.</p>
+                    <p style="font-weight: bold;">How We Use It:</p>
+                    <p>Your email is used to send updates, respond to inquiries, and provide information related to our services.</p>
+                    <p style="font-weight: bold;">Sharing Your Data:</p>
+                    <p>We do not sell your email address. It is only shared with trusted partners who assist us in managing our communications and ensuring security.</p>
+                    <p style="font-weight: bold;">Security Measures:</p>
+                    <p>We protect your email with secure servers and encryption to prevent unauthorized access.</p>
+                    <p style="font-weight: bold;">Your Rights:</p>
+                    <p>You can unsubscribe or request deletion of your email from our records at any time by contacting us.</p>
+                    <p style="font-weight: bold;">Updates:</p>
+                    <p>This policy may be updated periodically. We will notify you of any significant changes.</p>
+                    <p style="font-weight: bold;">Contact Us:</p>
+                    <p>For questions or concerns, please email us at drizzledex.contactus@gmail.com.</p>
+                </div>
+                <div class="footer_logo"><img src="../static/images/privacy.jpeg" alt=""></div>
+            </div>
+            <div></div>
+        </div>
+    </div>
     <!-- Link to JavaScript -->
     <script src="{{ url_for('static', filename='js/popup.js') }}"></script>
     <script src="{{ url_for('static', filename='js/chatbot_popup.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/popup.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chatbot_popup.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper', {
+    // Optional parameters
+            direction: 'horizontal',
+            loop: true,
+
+
+    // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+            },
+
+    // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
 </body>
 </html>
