@@ -23,7 +23,7 @@ def format_current_weather(current_weather, daily_data, hourly_data):
     humidity = hourly_data.get('relative_humidity_2m', [''])[0]
     shower = hourly_data.get('showers', [''])[0]
     precipitation = hourly_data.get('precipitation', [''])[0]
-    cloud_cover = hourly_data.get('cloudcover', [''])[0]
+    cloud_cover = hourly_data.get('cloudcover', [''])[0]  # Đảm bảo tên khóa trùng khớp với dữ liệu API
 
     # Lấy dữ liệu rain_sum từ daily_data
     rain_sum_today = daily_data.get('rain_sum', [''])[0]
