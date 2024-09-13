@@ -174,7 +174,7 @@ def get_chatbot_response(user_input):
 
     # Nếu có gợi ý, trả về gợi ý cho người dùng
     if suggestions:
-        suggestion_list = ", ".join([f"{loc} (score: {score})" for loc, score in suggestions])
+        suggestion_list = ", ".join([f"{loc} (Similarity: {score})" for loc, score in suggestions])
         return f"Did you mean one of these locations? {suggestion_list}"
 
     responses = []
