@@ -30,3 +30,6 @@ pip install scikit-learn
 pip install dash
 pip install -U spacy
 python -m spacy download en_core_web_sm
+pip install flask-cors
+pip install fuzzywuzzy
+pip install python-Levenshtein
