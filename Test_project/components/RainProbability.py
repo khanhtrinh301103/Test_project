@@ -7,14 +7,12 @@ from tensorflow.keras.regularizers import l2
 import os
 import pickle
 
-# Hàm để lưu model và scaler (chỉ lưu mô hình và scaler, không lưu dữ liệu dự đoán)
+# Hàm để lưu model và scaler
 def save_model_and_scaler(model, feature_scaler, target_scaler, model_path='models/rain_probability_model.h5', scaler_path='models/'):
-    # Lưu mô hình
     if not os.path.exists('models'):
         os.makedirs('models')
     model.save(model_path)
 
-    # Lưu scaler dưới dạng pkl
     with open(os.path.join(scaler_path, 'feature_scaler.pkl'), 'wb') as f:
         pickle.dump(feature_scaler, f)
     with open(os.path.join(scaler_path, 'target_scaler.pkl'), 'wb') as f:
@@ -25,10 +23,8 @@ def load_model_and_scaler(model_path='models/rain_probability_model.h5', scaler_
     if not os.path.exists(model_path):
         raise FileNotFoundError("Model file not found. Please train the model first.")
 
-    # Tải mô hình
     model = load_model(model_path)
 
-    # Kiểm tra và tải scaler
     feature_scaler_path = os.path.join(scaler_path, 'feature_scaler.pkl')
     target_scaler_path = os.path.join(scaler_path, 'target_scaler.pkl')
 
@@ -42,7 +38,7 @@ def load_model_and_scaler(model_path='models/rain_probability_model.h5', scaler_
 
     return model, feature_scaler, target_scaler
 
-# Hàm huấn luyện và lưu model (chỉ lưu quá trình huấn luyện)
+# Hàm huấn luyện và lưu model
 def train_and_save_rain_probability_model(df):
     features = df.columns.difference(['precipitation_sum'])
     target = 'precipitation_sum'
@@ -61,12 +57,11 @@ def train_and_save_rain_probability_model(df):
     X, y = np.array(X), np.array(y)
     X = X.reshape((X.shape[0], X.shape[1], len(features)))
 
-    # Khởi tạo mô hình
     model = Sequential()
     model.add(Conv1D(filters=64, kernel_size=2, activation='relu', input_shape=(look_back, len(features))))
     model.add(MaxPooling1D(pool_size=2))
     model.add(Dropout(0.4))
-    model.add(Bidirectional(LSTM(64, return_sequences=True, kernel_regularizer=l2(0.01))))
+    model.add(Bidirectional(LSTM(64, return_sequences=True, kernel_regularizer=l2(0.01))))  # Loại bỏ time_major
     model.add(Dropout(0.4))
     model.add(Bidirectional(LSTM(64, kernel_regularizer=l2(0.01))))
     model.add(Dropout(0.4))
@@ -76,15 +71,13 @@ def train_and_save_rain_probability_model(df):
 
     model.compile(optimizer='adam', loss='mse')
 
-    # Huấn luyện mô hình
     model.fit(X, y, epochs=200, batch_size=16, validation_split=0.2, verbose=0, shuffle=False)
 
-    # Lưu mô hình và scaler (chỉ lưu sau khi huấn luyện, không lưu kết quả dự đoán)
     save_model_and_scaler(model, feature_scaler, target_scaler)
 
     return model, feature_scaler, target_scaler
 
-# Hàm dự đoán xác suất mưa (chỉ dự đoán mà không lưu lại)
+# Hàm dự đoán xác suất mưa
 def predict_precipitation_probability(data, predict_next_14_days=False):
     if not data.get('time') or not data.get('temperature_2m_max'):
         raise ValueError("Missing necessary fields in daily data")
@@ -104,11 +97,9 @@ def predict_precipitation_probability(data, predict_next_14_days=False):
     df.set_index('date', inplace=True)
     df.fillna(0, inplace=True)
 
-    # Kiểm tra và huấn luyện mô hình nếu cần (chỉ huấn luyện nếu chưa có)
     try:
         model, feature_scaler, target_scaler = load_model_and_scaler()
     except FileNotFoundError:
-        # Huấn luyện lại mô hình nếu chưa có mô hình hoặc scaler
         model, feature_scaler, target_scaler = train_and_save_rain_probability_model(df)
 
     features = df.columns.difference(['precipitation_sum'])
@@ -125,8 +116,7 @@ def predict_precipitation_probability(data, predict_next_14_days=False):
         precipitation_probability = np.minimum(predicted_precipitation[0][0] * 10, 100)
         predictions.append(precipitation_probability)
 
-        # Cập nhật last_14_days với giá trị dự đoán mới (không lưu giá trị dự đoán này)
-        new_row = np.hstack((X_pred[0, -1, :-1], y_pred[0]))  # Chèn giá trị mới vào cuối
-        last_14_days = np.vstack((last_14_days[1:], new_row))  # Xóa hàng đầu tiên và thêm hàng mới
+        new_row = np.hstack((X_pred[0, -1, :-1], y_pred[0]))
+        last_14_days = np.vstack((last_14_days[1:], new_row))
 
     return predictions
