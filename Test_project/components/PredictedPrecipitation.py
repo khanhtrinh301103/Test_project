@@ -7,6 +7,7 @@ from sklearn.ensemble import GradientBoostingRegressor
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.losses import MeanSquaredError
 import os
 
 # Hàm xử lý dữ liệu
@@ -49,7 +50,7 @@ def create_lstm_model(input_shape):
     model.add(LSTM(50))
     model.add(Dropout(0.2))
     model.add(Dense(1))
-    model.compile(optimizer=Adam(learning_rate=0.001), loss='mse')
+    model.compile(optimizer=Adam(learning_rate=0.001), loss=MeanSquaredError())  # Sử dụng đối tượng MeanSquaredError
     return model
 
 # Huấn luyện mô hình và lưu
@@ -104,11 +105,14 @@ def load_models():
     gb_model_path = 'models/gb_model.pkl'
 
     if os.path.exists(lstm_model_path) and os.path.exists(gb_model_path):
-        lstm_model = load_model(lstm_model_path)
+        lstm_model = load_model(lstm_model_path, compile=False)  # Sử dụng compile=False để tránh lỗi khi tải mô hình
+        lstm_model.compile(optimizer='adam', loss=MeanSquaredError())  # Biên dịch lại mô hình sau khi tải
+
         gb_model = joblib.load(gb_model_path)
         return gb_model, lstm_model
     else:
         raise FileNotFoundError("Mô hình không tồn tại. Hãy kiểm tra lại đường dẫn hoặc huấn luyện mô hình.")
+
 
 # Hàm dự đoán
 def predict_precipitation(daily_df, gb_model, lstm_model, features):

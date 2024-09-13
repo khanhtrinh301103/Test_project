@@ -4,6 +4,7 @@ from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Dense, LSTM, Bidirectional, Conv1D, MaxPooling1D, Dropout
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.regularizers import l2
+from tensorflow.keras.losses import MeanSquaredError
 import os
 import pickle
 
@@ -61,7 +62,7 @@ def train_and_save_rain_probability_model(df):
     model.add(Conv1D(filters=64, kernel_size=2, activation='relu', input_shape=(look_back, len(features))))
     model.add(MaxPooling1D(pool_size=2))
     model.add(Dropout(0.4))
-    model.add(Bidirectional(LSTM(64, return_sequences=True, kernel_regularizer=l2(0.01))))  # Loại bỏ time_major
+    model.add(Bidirectional(LSTM(64, return_sequences=True, kernel_regularizer=l2(0.01))))
     model.add(Dropout(0.4))
     model.add(Bidirectional(LSTM(64, kernel_regularizer=l2(0.01))))
     model.add(Dropout(0.4))
@@ -69,13 +70,15 @@ def train_and_save_rain_probability_model(df):
     model.add(Dropout(0.4))
     model.add(Dense(1))
 
-    model.compile(optimizer='adam', loss='mse')
+    # Sử dụng MeanSquaredError thay vì 'mse'
+    model.compile(optimizer='adam', loss=MeanSquaredError())
 
     model.fit(X, y, epochs=200, batch_size=16, validation_split=0.2, verbose=0, shuffle=False)
 
     save_model_and_scaler(model, feature_scaler, target_scaler)
 
     return model, feature_scaler, target_scaler
+
 
 # Hàm dự đoán xác suất mưa
 def predict_precipitation_probability(data, predict_next_14_days=False):
