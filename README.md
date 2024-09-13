@@ -19,7 +19,8 @@ from flask_cors import CORS
 
 http://127.0.0.1:5000/
 
-
+conda env create -f environment.yml
+conda activate env_data_analysis
 pip install pandas numpy matplotlib
 pip install Flask
 pip install pandas
