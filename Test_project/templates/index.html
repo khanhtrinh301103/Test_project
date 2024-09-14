@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="../static/css/news.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+    <link rel="stylesheet" href="../static/css/news_popup.css">
     <title>Weather Dashboard</title>
 </head>
 <body>
@@ -13,7 +17,7 @@
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
         </div>
         <ul class="navbar-links">
-            <li><a href="#">News</a></li>
+            <li><a href="#" id="newsLink" >News</a></li>
             <li><a href="#" id="setting-btn">Setting</a></li> <!-- Button mở popup -->
             <li><a href="#" id="chatbot-open-btn" class="open-chatbot-btn">Weather GPT</a></li>
         </ul>
@@ -110,8 +114,67 @@
     <!-- Include Popup HTML -->
     {% include 'settings_popup.html' %}
     {% include 'chatbot_popup.html' %}
+    {% include 'news_popup.html' %}
+    <!-- News end -->
+        <!-- footer start -->
+    <footer id="footer">
+        <div class="footer_box">
+            <p>© Copyright 2024</p>
+            <p>Developed with dedication at RMIT University.</p>
+            <p>This website is intended solely for educational purposes and is not for commercial use.</p>
+            <p><a style="text-decoration: none; color: white;" href="#About">About Us</a> | <a style="text-decoration: none; color: white;" href="#privacy">Privacy Policy</a> | <a style="text-decoration: none; color: white;" href="#term">Terms of Service</a></p>
+        </div>
+    </footer>
+    {% include 'footer_popup.html' %}
+    {% include 'popup_slider.html' %}
     <!-- Link to JavaScript -->
     <script src="{{ url_for('static', filename='js/popup.js') }}"></script>
     <script src="{{ url_for('static', filename='js/chatbot_popup.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/news_popup.js') }}"></script>  
+    <script>
+        const swiper = new Swiper('.swiper', {
+    // Optional parameters
+            direction: 'horizontal',
+            loop: true,
+
+
+    // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+            },
+
+    // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+    <script>
+        const swiper1 = new Swiper('.slider', {
+      // Optional parameters
+            direction: 'horizontal',
+            loop: true,
+    
+    
+      // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+            },
+    
+      // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+    
+      // And if we need scrollbar
+            // scrollbar: {
+            //     el: '.swiper-scrollbar',
+            // },
+        });
+    </script>
 </body>
 </html>
+
