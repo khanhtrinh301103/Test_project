@@ -1,29 +1,46 @@
 import numpy as np
 import pandas as pd
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, LSTM, Bidirectional, Conv1D, MaxPooling1D, Flatten, Dropout
+from tensorflow.keras.models import Sequential, load_model
+from tensorflow.keras.layers import Dense, LSTM, Bidirectional, Conv1D, MaxPooling1D, Dropout
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.regularizers import l2
+from tensorflow.keras.losses import MeanSquaredError
+import os
+import pickle
 
-def predict_precipitation_probability(data, predict_next_14_days=False):
-    if not data.get('time') or not data.get('temperature_2m_max'):
-        raise ValueError("Missing necessary fields in daily data")
+# Hàm để lưu model và scaler
+def save_model_and_scaler(model, feature_scaler, target_scaler, model_path='models/rain_probability_model.h5', scaler_path='models/'):
+    if not os.path.exists('models'):
+        os.makedirs('models')
+    model.save(model_path)
 
-    dates = pd.to_datetime(data['time'])
-    df = pd.DataFrame({
-        'date': dates,
-        'temperature_2m_max': data['temperature_2m_max'],
-        'temperature_2m_min': data['temperature_2m_min'],
-        'sunshine_duration': data['sunshine_duration'],
-        'precipitation_sum': data['precipitation_sum'],
-        'precipitation_probability_max': data['precipitation_probability_max'],
-        'wind_speed_10m_max': data['wind_speed_10m_max'],
-        'wind_gusts_10m_max': data['wind_gusts_10m_max'],
-        'wind_direction_10m_dominant': data['wind_direction_10m_dominant']
-    })
-    df.set_index('date', inplace=True)
-    df.fillna(0, inplace=True)
+    with open(os.path.join(scaler_path, 'feature_scaler.pkl'), 'wb') as f:
+        pickle.dump(feature_scaler, f)
+    with open(os.path.join(scaler_path, 'target_scaler.pkl'), 'wb') as f:
+        pickle.dump(target_scaler, f)
 
+# Hàm để tải model và scaler
+def load_model_and_scaler(model_path='models/rain_probability_model.h5', scaler_path='models/'):
+    if not os.path.exists(model_path):
+        raise FileNotFoundError("Model file not found. Please train the model first.")
+
+    model = load_model(model_path)
+
+    feature_scaler_path = os.path.join(scaler_path, 'feature_scaler.pkl')
+    target_scaler_path = os.path.join(scaler_path, 'target_scaler.pkl')
+
+    if not os.path.exists(feature_scaler_path) or not os.path.exists(target_scaler_path):
+        raise FileNotFoundError("Scaler files not found. Please train the model first.")
+
+    with open(feature_scaler_path, 'rb') as f:
+        feature_scaler = pickle.load(f)
+    with open(target_scaler_path, 'rb') as f:
+        target_scaler = pickle.load(f)
+
+    return model, feature_scaler, target_scaler
+
+# Hàm huấn luyện và lưu model
+def train_and_save_rain_probability_model(df):
     features = df.columns.difference(['precipitation_sum'])
     target = 'precipitation_sum'
 
@@ -53,11 +70,45 @@ def predict_precipitation_probability(data, predict_next_14_days=False):
     model.add(Dropout(0.4))
     model.add(Dense(1))
 
-    model.compile(optimizer='adam', loss='mse')
+    # Sử dụng MeanSquaredError thay vì 'mse'
+    model.compile(optimizer='adam', loss=MeanSquaredError())
 
     model.fit(X, y, epochs=200, batch_size=16, validation_split=0.2, verbose=0, shuffle=False)
 
-    # Dự đoán xác suất mưa cho 14 ngày tới
+    save_model_and_scaler(model, feature_scaler, target_scaler)
+
+    return model, feature_scaler, target_scaler
+
+
+# Hàm dự đoán xác suất mưa
+def predict_precipitation_probability(data, predict_next_14_days=False):
+    if not data.get('time') or not data.get('temperature_2m_max'):
+        raise ValueError("Missing necessary fields in daily data")
+
+    dates = pd.to_datetime(data['time'])
+    df = pd.DataFrame({
+        'date': dates,
+        'temperature_2m_max': data['temperature_2m_max'],
+        'temperature_2m_min': data['temperature_2m_min'],
+        'sunshine_duration': data['sunshine_duration'],
+        'precipitation_sum': data['precipitation_sum'],
+        'precipitation_probability_max': data['precipitation_probability_max'],
+        'wind_speed_10m_max': data['wind_speed_10m_max'],
+        'wind_gusts_10m_max': data['wind_gusts_10m_max'],
+        'wind_direction_10m_dominant': data['wind_direction_10m_dominant']
+    })
+    df.set_index('date', inplace=True)
+    df.fillna(0, inplace=True)
+
+    try:
+        model, feature_scaler, target_scaler = load_model_and_scaler()
+    except FileNotFoundError:
+        model, feature_scaler, target_scaler = train_and_save_rain_probability_model(df)
+
+    features = df.columns.difference(['precipitation_sum'])
+    scaled_features = feature_scaler.transform(df[features])
+
+    look_back = 14
     predictions = []
     last_14_days = scaled_features[-look_back:]
 
@@ -68,8 +119,7 @@ def predict_precipitation_probability(data, predict_next_14_days=False):
         precipitation_probability = np.minimum(predicted_precipitation[0][0] * 10, 100)
         predictions.append(precipitation_probability)
 
-        # Cập nhật last_14_days với giá trị dự đoán mới
-        new_row = np.hstack((X_pred[0, -1, :-1], y_pred[0]))  # Chèn giá trị mới vào cuối
-        last_14_days = np.vstack((last_14_days[1:], new_row))  # Xóa hàng đầu tiên và thêm hàng mới
+        new_row = np.hstack((X_pred[0, -1, :-1], y_pred[0]))
+        last_14_days = np.vstack((last_14_days[1:], new_row))
 
     return predictions

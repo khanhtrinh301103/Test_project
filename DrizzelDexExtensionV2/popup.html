@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Data</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <form id="location-form">
+            <select id="location-select" name="location" class="location-select">
+                <option value="Ho Chi Minh">Ho Chi Minh</option>
+                <option value="Hanoi">Hanoi</option>
+                <option value="Da Nang">Da Nang</option>
+                <option value="Can Tho">Can Tho</option>
+                <option value="Nha Trang">Nha Trang</option>
+            </select>
+            <button type="submit" class="get-started-btn">Get Started</button>
+        </form>
+        
+        <div id="weather-info">
+            <div class="element" id="temperature">Temperature:</div>
+            <div class="element" id="windspeed">Windspeed:</div>
+            <div class="element" id="daynight">Day/Night:</div>
+            <div class="element" id="weathercode">Weather Code:</div>
+            <div class="element" id="humidity">humidity: </div>
+            <div class="element" id="rainprobability">Rain Probability:</div>
+        </div>    
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>

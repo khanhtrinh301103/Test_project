@@ -2,12 +2,11 @@ from datetime import datetime
 from components.RainProbability import predict_precipitation_probability
 
 def format_current_weather(current_weather, daily_data, hourly_data):
-    # Giả sử bạn chỉ muốn lấy xác suất mưa cho ngày hôm nay
-    precipitation_probability_today = predict_precipitation_probability(daily_data, predict_next_14_days=False)
+    # Lấy xác suất mưa cho 14 ngày tới từ hàm predict_precipitation_probability
+    precipitation_probabilities = predict_precipitation_probability(daily_data, predict_next_14_days=True)
     
-    # Nếu kết quả trả về là một danh sách, bạn có thể lấy giá trị đầu tiên
-    if isinstance(precipitation_probability_today, list):
-        precipitation_probability_today = precipitation_probability_today[0]
+    # Nếu kết quả trả về là một danh sách, bạn có thể lấy giá trị đầu tiên cho ngày hôm nay
+    precipitation_probability_today = precipitation_probabilities[0] if precipitation_probabilities else 0
     
     # Extract and format sunrise and sunset times
     sunrise_raw = daily_data.get('sunrise', [''])[0]
@@ -24,7 +23,10 @@ def format_current_weather(current_weather, daily_data, hourly_data):
     humidity = hourly_data.get('relative_humidity_2m', [''])[0]
     shower = hourly_data.get('showers', [''])[0]
     precipitation = hourly_data.get('precipitation', [''])[0]
-    cloud_cover = hourly_data.get('cloudcover', [''])[0]
+    cloud_cover = hourly_data.get('cloudcover', [''])[0]  # Đảm bảo tên khóa trùng khớp với dữ liệu API
+
+    # Lấy dữ liệu rain_sum từ daily_data
+    rain_sum_today = daily_data.get('rain_sum', [''])[0]
 
     return {
         'temperature': current_weather.get('temperature', ''),
@@ -38,5 +40,6 @@ def format_current_weather(current_weather, daily_data, hourly_data):
         'humidity': humidity,
         'showers': shower,
         'precipitation': precipitation,
-        'cloud_cover': cloud_cover
+        'cloud_cover': cloud_cover,
+        'rain_sum': rain_sum_today  # Thêm rain_sum vào kết quả trả về
     }

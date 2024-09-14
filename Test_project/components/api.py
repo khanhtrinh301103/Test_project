@@ -7,7 +7,7 @@ def get_weather_data(latitude, longitude):
         "longitude": longitude,
         "current_weather": "true",
         "hourly": ["relative_humidity_2m", "precipitation", "showers", "cloudcover"],
-        "daily": ["temperature_2m_max", "temperature_2m_min", "sunshine_duration", "precipitation_sum", "precipitation_probability_max", "wind_speed_10m_max", "wind_gusts_10m_max", "wind_direction_10m_dominant", "sunrise", "sunset"],
+        "daily": ["temperature_2m_max", "temperature_2m_min", "sunshine_duration", "precipitation_sum", "rain_sum", "precipitation_probability_max", "wind_speed_10m_max", "wind_gusts_10m_max", "wind_direction_10m_dominant", "sunrise", "sunset"],
         "timezone": "Asia/Bangkok",
         "past_days": 60
     }
