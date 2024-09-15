@@ -70,7 +70,7 @@ def analyze_question(user_input):
             if keyword in user_input:
                 weather_types.append(weather_type)
 
-    # Nếu tìm thấy từ khóa thời tiết mới, lưu vào bộ nhớ
+    # Lưu lại loại thời tiết nếu người dùng đã cung cấp
     if weather_types:
         user_weather_type_memory = weather_types  # Ghi đè từ khóa thời tiết mới
     else:
@@ -103,7 +103,6 @@ def analyze_question(user_input):
     print(f"Final detected locations: {locations}, Weather types: {weather_types}")  # Debug final location and weather types
 
     return locations, weather_types, suggestions
-
 
 # Hàm tìm câu hỏi trong file JSON
 def find_question_in_json(user_input):
@@ -175,8 +174,8 @@ def generate_weather_response(weather_data, location, weather_types):
 def get_chatbot_response(user_input):
     locations, weather_types, suggestions = analyze_question(user_input)
 
-    # Nếu có gợi ý, trả về gợi ý cho người dùng
-    if suggestions:
+    # Nếu có gợi ý, trả về gợi ý cho người dùng, nhưng chỉ khi chưa có địa danh trong bộ nhớ
+    if suggestions and not user_location_memory:
         suggestion_list = ", ".join([f"{loc} (Similarity: {score})" for loc, score in suggestions])
         return f"Did you mean one of these locations? {suggestion_list}"
 
