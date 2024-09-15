@@ -70,9 +70,13 @@ def analyze_question(user_input):
             if keyword in user_input:
                 weather_types.append(weather_type)
 
-    # Nếu tìm thấy từ khóa thời tiết, lưu chúng lại
+    # Nếu tìm thấy từ khóa thời tiết mới, lưu vào bộ nhớ
     if weather_types:
-        previous_weather_types = weather_types
+        user_weather_type_memory = weather_types  # Ghi đè từ khóa thời tiết mới
+    else:
+        # Nếu không có từ khóa thời tiết mới, dùng loại thời tiết từ bộ nhớ
+        if user_weather_type_memory:
+            weather_types = user_weather_type_memory
 
     # Loại bỏ các từ khóa thời tiết khỏi user_input để tìm địa danh
     for keyword in sum(weather_keywords.values(), []):  # Flatten các từ khóa
@@ -83,20 +87,15 @@ def analyze_question(user_input):
 
     print(f"User input after removing weather keywords: {user_input}")  # Debug
 
-    # Kiểm tra xem người dùng có chọn gợi ý từ danh sách trước đó không
-    if suggested_locations:
-        if user_input.strip().lower() in [loc.lower() for loc, _ in suggested_locations]:
-            print(f"User selected a suggestion: {user_input}")
-            return [user_input], previous_weather_types, None  # Trả về địa danh từ gợi ý đã chọn
-
-    # Sử dụng fuzzy matching cho cả cụm từ địa danh
+    # Sử dụng fuzzy matching cho cả cụm từ địa danh nếu chưa có địa danh xác nhận
     fuzzy_location, suggestions = find_closest_match(user_input, possible_locations)
     if fuzzy_location:
         locations.append(fuzzy_location)
-        user_location_memory = fuzzy_location  # Lưu vào bộ nhớ
+        user_location_memory = fuzzy_location  # Ghi đè địa danh mới vào bộ nhớ
 
-    # Nếu không tìm thấy địa điểm, dùng bộ nhớ
+    # Nếu không tìm thấy địa danh mới, dùng địa danh từ bộ nhớ
     if not locations and user_location_memory:
+        print(f"Using confirmed location from memory: {user_location_memory}")
         locations.append(user_location_memory)
 
     suggested_locations = suggestions  # Lưu lại danh sách gợi ý cho lần sau
@@ -104,6 +103,7 @@ def analyze_question(user_input):
     print(f"Final detected locations: {locations}, Weather types: {weather_types}")  # Debug final location and weather types
 
     return locations, weather_types, suggestions
+
 
 # Hàm tìm câu hỏi trong file JSON
 def find_question_in_json(user_input):
@@ -120,6 +120,9 @@ def find_question_in_json(user_input):
 
 # Hàm phụ để sinh câu trả lời cho từng loại thông tin
 def generate_weather_response(weather_data, location, weather_types):
+    if weather_types is None or len(weather_types) == 0:
+        return "Could you please specify what weather information you're interested in (e.g., temperature, rain, humidity)?"
+
     responses = []
     
     if "all" in weather_types or not weather_types:
@@ -177,6 +180,14 @@ def get_chatbot_response(user_input):
         suggestion_list = ", ".join([f"{loc} (Similarity: {score})" for loc, score in suggestions])
         return f"Did you mean one of these locations? {suggestion_list}"
 
+    # Kiểm tra xem người dùng đã cung cấp địa danh chưa
+    if not locations:
+        return "Could you please specify the location you're asking about (e.g., Hanoi, London)?"
+
+    # Kiểm tra xem người dùng đã cung cấp loại thông tin thời tiết chưa
+    if not weather_types:
+        return "Could you please specify what weather information you're interested in (e.g., temperature, rain, humidity)?"
+
     responses = []
     for location in locations:
         coords = load_location_data().get(location)
@@ -190,6 +201,7 @@ def get_chatbot_response(user_input):
             responses.append(f"Sorry, I could not find the coordinates for {location.title()}.")
 
     return " ".join(responses)
+
 
 # Hàm chính để bot xử lý câu hỏi từ người dùng
 def process_user_message(user_input):
