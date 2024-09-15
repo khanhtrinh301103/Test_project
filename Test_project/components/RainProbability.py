@@ -79,7 +79,6 @@ def train_and_save_rain_probability_model(df):
 
     return model, feature_scaler, target_scaler
 
-
 # Hàm dự đoán xác suất mưa
 def predict_precipitation_probability(data, predict_next_14_days=False):
     if not data.get('time') or not data.get('temperature_2m_max'):
@@ -119,7 +118,8 @@ def predict_precipitation_probability(data, predict_next_14_days=False):
         precipitation_probability = np.minimum(predicted_precipitation[0][0] * 10, 100)
         predictions.append(precipitation_probability)
 
-        new_row = np.hstack((X_pred[0, -1, :-1], y_pred[0]))
-        last_14_days = np.vstack((last_14_days[1:], new_row))
+        # Cập nhật dữ liệu mới từ dự đoán vào bộ dữ liệu cho lần dự đoán tiếp theo
+        new_row = np.hstack((X_pred[0, -1, :-1], y_pred[0]))  # Thêm giá trị y_pred vào hàng mới
+        last_14_days = np.vstack((last_14_days[1:], new_row))  # Cập nhật dữ liệu 14 ngày tiếp theo
 
     return predictions

@@ -69,6 +69,7 @@ def index():
     try:
         precipitation_probabilities = predict_precipitation_probability(weather_data['daily'], predict_next_14_days=True)
         session['precipitation_probabilities_14d'] = precipitation_probabilities
+        print(f"Updated probabilities: {session['precipitation_probabilities_14d']}")  # In log để kiểm tra dữ liệu
     except Exception as e:
         print(f"Error in rain probability prediction: {e}")
         session['precipitation_probabilities_14d'] = []
@@ -83,7 +84,6 @@ def index():
     formatted_weather['location'] = current_location  # Cập nhật location để hiển thị trên UI
 
     return render_template('index.html', weather=formatted_weather, pred_data=pred_json, temp_map=temperature_map_json)
-
 
 # Route cho bản đồ nhiệt độ
 @server.route('/temperature_map/')
