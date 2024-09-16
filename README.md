@@ -33,3 +33,6 @@ python -m spacy download en_core_web_sm
 pip install flask-cors
 pip install fuzzywuzzy
 pip install python-Levenshtein
+
+pip install opencv-python
+pip install scikit-image
