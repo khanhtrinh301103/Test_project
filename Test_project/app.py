@@ -12,7 +12,6 @@ from components.RainSumChart import create_rain_sum_chart
 from components.locations import get_location_coordinates
 from components.TemperatureMap import create_temperature_map
 from components.chatbot import process_user_message  # Import từ chatbot.py
-from components.chatbotImage import process_user_image  # Import xử lý hình ảnh
 import os
 import json
 
@@ -102,23 +101,8 @@ def temperature_map():
 @server.route('/chatbot', methods=['POST'])
 def chatbot():
     user_input = request.form.get('message')  # Lấy tin nhắn từ người dùng
-    user_image = request.files.get('image')  # Lấy hình ảnh từ người dùng (nếu có)
-
-    # Kiểm tra nếu file ảnh được gửi tới server
-    if user_image:
-        print(f"Received image: {user_image.filename}")
-    else:
-        print("No image received")
-
-    # Kiểm tra nếu người dùng gửi ảnh để phân loại
-    if user_image and "what is the weather in this" in user_input.lower():
-        response = process_user_image(user_image)
-    else:
-        response = process_user_message(user_input)
-
+    response = process_user_message(user_input)
     return jsonify({"response": response})
-
-
 
 if __name__ == '__main__':
     server.run(debug=True)

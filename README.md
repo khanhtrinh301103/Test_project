@@ -38,3 +38,5 @@ pip install fuzzywuzzy
 pip install python-Levenshtein
 pip install opencv-python
 pip install scikit-image
+
+September 19

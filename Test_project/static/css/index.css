@@ -195,55 +195,6 @@ body, html {
     transition: background-color 0.5s ease;
 }
 
-
-/* Popup Styles */
-.popup {
-    display: none; /* Ẩn popup theo mặc định, có thể bật bằng JS */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000; /* Đảm bảo popup nằm trên các thành phần khác */
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 300px; /* Độ rộng của popup */
-}
-
-.popup-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.save-btn {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.save-btn:hover {
-    background-color: #0056b3;
-}
-
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-}
-
-.close-btn:hover {
-    color: #ff0000;
-}
-
 /* Styles for Chat Bot Popup */
 .chatbot-popup {
     display: none; /* Hidden by default, mở khi nhấn vào nút mở */
@@ -404,6 +355,3 @@ body, html {
 .chatbot-submit-btn:hover {
     background-color: #0056b3;
 }
-
-
-

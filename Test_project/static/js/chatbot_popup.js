@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const chatbotCloseBtn = document.getElementById('chatbot-close-btn');
     const chatbotForm = document.getElementById('chatbot-form');
     const chatbotInput = document.getElementById('chatbot-input');
-    const chatbotImageInput = document.getElementById('chatbot-image');  // Nút tải lên hình ảnh
     const chatbotMessages = document.getElementById('chatbot-messages');
 
     let isFirstOpen = true;
@@ -36,12 +35,11 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
     
             const userInput = chatbotInput.value;
-            const userImage = chatbotImageInput.files[0];  // Lấy file hình ảnh
     
             const userMessage = document.createElement('div');
             userMessage.classList.add('user-message');
             userMessage.classList.add('message-slide-in-right');
-            userMessage.innerHTML = userInput || "Sent an image"; // Nếu chỉ gửi ảnh, hiển thị thông báo phù hợp
+            userMessage.innerHTML = userInput;
             chatbotMessages.appendChild(userMessage);
     
             const typingIndicator = document.createElement('div');
@@ -51,12 +49,9 @@ document.addEventListener('DOMContentLoaded', function () {
     
             chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
     
-            // Tạo form data để gửi văn bản và hình ảnh
+            // Gửi văn bản tới server
             const formData = new FormData();
             formData.append('message', userInput);
-            if (userImage) {
-                formData.append('image', userImage);  // Đảm bảo gửi cả hình ảnh
-            }
     
             fetch('/chatbot', {
                 method: 'POST',
@@ -72,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 chatbotMessages.appendChild(botMessage);
     
                 chatbotInput.value = '';
-                chatbotImageInput.value = '';  // Xóa hình ảnh sau khi gửi
                 chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
             })
             .catch(error => {
@@ -81,5 +75,4 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
-    
 });
