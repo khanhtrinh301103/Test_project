@@ -16,6 +16,8 @@ scikit-learn==1.5.2
 scipy==1.14.1
 matplotlib==3.9.2
 tensorflow-cpu==2.17.0
+spacy==3.7.6
+en-core-web-sm==3.7.1
 opencv-python==4.10.0.84
 h5py==3.11.0
 joblib==1.4.2
