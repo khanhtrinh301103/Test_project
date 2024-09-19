@@ -121,9 +121,8 @@ starkbank-ecdsa==2.2.0
 sympy==1.13.2
 tenacity==9.0.0
 tensorboard==2.17.1
-tensorflow==2.17.0
+tensorflow==2.13.0
 tensorflow-estimator==2.13.0
-tensorflow-intel==2.17.0
 tensorflow-io-gcs-filesystem==0.31.0
 termcolor==2.4.0
 thinc==8.2.5
