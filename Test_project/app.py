@@ -16,18 +16,18 @@ import os
 import json
 
 server = Flask(__name__)
-server.secret_key = 'supersecretkey'
+server.secret_key = os.getenv('SECRET_KEY', 'fallback_key')
 CORS(server)
 
 # Tạo Dash App cho các biểu đồ
 dash_app = create_dash_app(server)
 rain_probability_chart = create_rain_probability_chart(server)
 rain_sum_chart = create_rain_sum_chart(server)
-
+    
 @server.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        selected_location = request.form.get('location')
+        selected_location = request.form.get('location')    
         if selected_location:
             session['location'] = selected_location  # Cập nhật location vào session
         return redirect(url_for('index'))  # Sau khi chọn location, trang sẽ reload
