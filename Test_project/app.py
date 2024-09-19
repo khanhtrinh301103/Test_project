@@ -15,16 +15,16 @@ from components.chatbot import process_user_message  # Import từ chatbot.py
 import os
 import json
 import logging
-
-# TensorFlow imports and memory limitation
 import tensorflow as tf
-from tensorflow.keras import backend as K
 
-# Cấu hình TensorFlow chỉ sử dụng bộ nhớ khi cần thiết
-config = tf.compat.v1.ConfigProto()
-config.gpu_options.allow_growth = True  # Chỉ sử dụng bộ nhớ khi cần thiết
-sess = tf.compat.v1.Session(config=config)
-K.set_session(sess)
+# Cấu hình để chỉ sử dụng bộ nhớ GPU khi cần thiết
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+    except RuntimeError as e:
+        print(e)
 
 # Khởi tạo Flask server
 server = Flask(__name__)
