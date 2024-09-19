@@ -32,12 +32,12 @@ Flask==3.0.3
 Flask-Cors==5.0.0
 Flask-SocketIO==5.3.7
 
-# AI and ML libraries
-keras==3.5.0
-tensorflow==2.13.0
-tensorflow-estimator==2.13.0
-tensorflow-io-gcs-filesystem==0.31.0
-torch==2.4.1
+# AI and ML libraries compatible with Python 3.10
+keras==2.9.0
+tensorflow==2.10.0
+tensorflow-estimator==2.10.0
+tensorflow-io-gcs-filesystem==0.27.0
+torch==2.0.0
 
 # Huggingface transformers and tokenizers
 huggingface-hub==0.24.7
@@ -57,10 +57,10 @@ matplotlib==3.9.2
 plotly==5.23.0
 
 # Numpy and data processing libraries
-numpy==1.24.4
+numpy==1.23.5
 pandas==2.2.2
 scikit-learn==1.5.2
-scipy==1.14.1
+scipy==1.8.0
 
 # File and image processing
 opencv-python==4.10.0.84
@@ -71,7 +71,7 @@ imageio==2.35.1
 # Others
 fuzzywuzzy==0.18.0
 h5py==3.11.0
-protobuf==4.25.4
+protobuf==3.20.3
 pyparsing==3.1.2
 pytz==2024.1
 PyYAML==6.0.2
@@ -81,5 +81,5 @@ smart-open==7.0.4
 sqlalchemy==2.0.16
 
 # Dependencies for TensorFlow and other AI libraries
-tensorflow-intel==2.13.0
-tensorboard==2.13.0
+tensorflow-intel==2.10.0
+tensorboard==2.10.0
