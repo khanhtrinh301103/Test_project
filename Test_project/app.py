@@ -14,20 +14,36 @@ from components.TemperatureMap import create_temperature_map
 from components.chatbot import process_user_message  # Import từ chatbot.py
 import os
 import json
+import logging
 
+# TensorFlow imports and memory limitation
+import tensorflow as tf
+from tensorflow.keras import backend as K
+
+# Cấu hình TensorFlow chỉ sử dụng bộ nhớ khi cần thiết
+config = tf.compat.v1.ConfigProto()
+config.gpu_options.allow_growth = True  # Chỉ sử dụng bộ nhớ khi cần thiết
+sess = tf.compat.v1.Session(config=config)
+K.set_session(sess)
+
+# Khởi tạo Flask server
 server = Flask(__name__)
 server.secret_key = os.getenv('SECRET_KEY', 'fallback_key')
 CORS(server)
+
+# Logging configuration
+logging.basicConfig(level=logging.INFO)
+logging.info("Starting the server and loading components...")
 
 # Tạo Dash App cho các biểu đồ
 dash_app = create_dash_app(server)
 rain_probability_chart = create_rain_probability_chart(server)
 rain_sum_chart = create_rain_sum_chart(server)
-    
+
 @server.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        selected_location = request.form.get('location')    
+        selected_location = request.form.get('location')
         if selected_location:
             session['location'] = selected_location  # Cập nhật location vào session
         return redirect(url_for('index'))  # Sau khi chọn location, trang sẽ reload
@@ -39,9 +55,11 @@ def index():
     coords = get_location_coordinates(current_location)
     
     # Lấy dữ liệu thời tiết dựa trên tọa độ hiện tại
+    logging.info(f"Fetching weather data for location: {current_location}")
     weather_data = get_weather_data(coords['latitude'], coords['longitude'])
     
     if not weather_data.get('daily'):
+        logging.error("No daily data available")
         raise ValueError("No daily data available")
     
     current_weather = weather_data['current_weather']
@@ -56,6 +74,7 @@ def index():
         gb_model, lstm_model = load_models()
     except FileNotFoundError:
         # Nếu mô hình chưa được lưu, huấn luyện và lưu mô hình
+        logging.info("Models not found, training new models...")
         gb_model, lstm_model = train_and_save_models(daily_df, features)
 
     # Dự đoán lượng mưa
@@ -69,9 +88,9 @@ def index():
     try:
         precipitation_probabilities = predict_precipitation_probability(weather_data['daily'], predict_next_14_days=True)
         session['precipitation_probabilities_14d'] = precipitation_probabilities
-        print(f"Updated probabilities: {session['precipitation_probabilities_14d']}")  # In log để kiểm tra dữ liệu
+        logging.info(f"Updated probabilities: {session['precipitation_probabilities_14d']}")
     except Exception as e:
-        print(f"Error in rain probability prediction: {e}")
+        logging.error(f"Error in rain probability prediction: {e}")
         session['precipitation_probabilities_14d'] = []
 
     # Lưu dữ liệu dự đoán vào session
@@ -104,7 +123,8 @@ def chatbot():
     response = process_user_message(user_input)
     return jsonify({"response": response})
 
+# Chạy ứng dụng Flask
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))  # Sử dụng cổng do Render cung cấp
+    port = int(os.environ.get("PORT", 5000))
+    logging.info(f"Starting server on port {port}")
     server.run(host='0.0.0.0', port=port, debug=True)
-
