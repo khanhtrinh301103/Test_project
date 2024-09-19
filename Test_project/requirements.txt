@@ -23,7 +23,6 @@ dash-bootstrap-components==1.6.0
 dash-core-components==2.0.0
 dash-html-components==2.0.0
 dash-table==5.0.0
-en-core-web-sm==3.7.1
 exceptiongroup==1.2.2
 filelock==3.16.0
 flask==3.0.3
