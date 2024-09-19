@@ -21,3 +21,4 @@ opencv-python==4.10.0.84
 h5py==3.11.0
 joblib==1.4.2
 fuzzywuzzy==0.18.0
+python-Levenshtein==0.20.9
